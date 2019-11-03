@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "870755946418",
+    "firebase_url": "https://futmm-8cb88.firebaseio.com",
+    "project_id": "futmm-8cb88",
+    "storage_bucket": "futmm-8cb88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870755946418:android:61e97b2cb6ba14ce43deab",
+        "android_client_info": {
+          "package_name": "com.example.futmm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870755946418-9gmg2r1ma3maghoot54toplk92h78phi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4SVoHmbZ8kOQni2yKG9Hm6iG4RQ1OhiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870755946418-9gmg2r1ma3maghoot54toplk92h78phi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
