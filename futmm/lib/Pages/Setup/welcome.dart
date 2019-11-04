@@ -15,19 +15,23 @@ class _WelcomePage extends State<WelcomePage> {
         title: Text('Welcome to FutMM'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          RaisedButton(
-            onPressed: navigateToSignIn,
-            child: Text('Sign in'),
-          ),
-          RaisedButton(
-            onPressed: navigateToSignUp,
-            child: Text('Sign up'),
-          ),
-        ],
-      ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Image.asset("assets/imagens/logo.png",height: 250, width: 250,),
+            Padding(
+              padding: EdgeInsets.all(50.0),
+            ),
+            RaisedButton(
+              onPressed: navigateToSignIn,
+              child: Text('Sign in'),
+            ),
+            RaisedButton(
+              onPressed: navigateToSignUp,
+              child: Text('Sign up'),
+            ),
+          ],
+        ),
     );
   }
 

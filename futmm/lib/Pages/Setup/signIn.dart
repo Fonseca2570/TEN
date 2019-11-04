@@ -16,38 +16,49 @@ class _LoginPageState extends State<LoginPage>{
       appBar: AppBar(
         title: Text('Sign in'),
       ),
-      body: Form(
-        key : _formKey,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              validator: (input){
-                if(input.isEmpty){
-                  return 'Please Type an email';
-                }
-              },
-              onSaved: (input) => _email = input,
-              decoration: InputDecoration(
-                labelText: 'Email'
+
+      body: Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/imagens/background.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Form(
+          key : _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextFormField(
+                validator: (input){
+                  if(input.isEmpty){
+                    return 'Please Type an email';
+                  }
+                },
+                onSaved: (input) => _email = input,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
               ),
-            ),
-            TextFormField(
-              validator: (input){
-                if(input.length < 6){
-                  return 'Your password needs to be atleast 6 characters';
-                }
-              },
-              onSaved: (input) => _password = input,
-              decoration: InputDecoration(
-                  labelText: 'Password'
+              TextFormField(
+                validator: (input){
+                  if(input.length < 6){
+                    return 'Your password needs to be atleast 6 characters';
+                  }
+                },
+                onSaved: (input) => _password = input,
+                decoration: InputDecoration(
+                    labelText: 'Password'
+                ),
+                obscureText: true,
               ),
-              obscureText: true,
-            ),
-            RaisedButton(
-              onPressed: signIn,
-              child: Text('Sign in'),
-            ),
-          ],
+              RaisedButton(
+                onPressed: signIn,
+                child: Text('Sign in'),
+              ),
+            ],
+          ),
         ),
       ),
     );
