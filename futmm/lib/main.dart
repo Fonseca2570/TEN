@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:futmm/Setup/signIn.dart';
+import 'package:futmm/Pages/Setup/welcome.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: LoginPage(),
+      home: WelcomePage(),
     );
   }
 }
