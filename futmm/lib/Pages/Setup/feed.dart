@@ -4,6 +4,38 @@ class feed extends StatefulWidget {
   @override
   _feedState createState() => _feedState();
 }
+Dialog showalert(String title, String texto, String data) {
+  Dialog errorDialog = Dialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    //this right here
+    child: Container(
+      height: 300.0,
+      width: 300.0,
+
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text(title, style: TextStyle(color: Colors.red),),
+          ),
+          Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text(texto, style: TextStyle(color: Colors.red),),
+          ),
+          Padding(padding: EdgeInsets.only(top: 50.0)),
+          FlatButton(onPressed: () {
+            BuildContext context;
+            Navigator.of(context).pop();
+          },
+              child: Text(data,
+                style: TextStyle(color: Colors.purple, fontSize: 18.0),))
+        ],
+      ),
+    ),
+  );
+  return errorDialog;
+}
 
 class _feedState extends State<feed> {
 
@@ -23,13 +55,15 @@ class _feedState extends State<feed> {
             title: Text(news[index]),
             subtitle: Text(datas[index]),
             contentPadding: EdgeInsets.all(25.0),
-            onTap: () async {
+            onTap: () async {/*
               showDialog(context: context, child:
                 new AlertDialog(
                   title: new Text(news[index]),
                   content: new Text(noticias[index]),
+
                 )
-              );
+              );*/
+              showDialog(context: context, builder: (BuildContext context) => showalert(news[index], noticias[index], datas[index]));
             },
           );
 
