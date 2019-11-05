@@ -9,12 +9,20 @@ Dialog showalert(String title, String texto, String data) {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     //this right here
     child: Container(
-      height: 300.0,
+      /*decoration: new BoxDecoration(
+        image: new DecorationImage(
+          image: new AssetImage("assets/imagens/background.jpg"),
+          fit: BoxFit.fill,
+        ),
+        shape: BoxShape.circle,
+      ),*/
+      height: 500.0,
       width: 300.0,
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Image.asset('assets/imagens/background.jpg'),
           Padding(
             padding: EdgeInsets.all(15.0),
             child: Text(title, style: TextStyle(color: Colors.red),),
