@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:futmm/Pages/home.dart';
+import 'feed.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -71,7 +72,7 @@ class _LoginPageState extends State<LoginPage>{
       formState.save();
       try{
         AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(user: user)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => feed()));
       }
       catch(e){
         print(e.message);
