@@ -21,6 +21,7 @@ Dialog showalert(String title, String texto, String data) {
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Image.asset('assets/imagens/background.jpg'),
           Padding(
