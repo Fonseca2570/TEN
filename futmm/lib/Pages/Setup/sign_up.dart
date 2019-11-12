@@ -14,7 +14,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+          title: new Center(child: new Text('Sign Up', textAlign: TextAlign.center)),
+          automaticallyImplyLeading: false
       ),
       body: Form(
         key : _formKey,

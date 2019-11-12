@@ -15,7 +15,10 @@ class _LoginPageState extends State<LoginPage>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign in'),
+        title: new Center(child: new Text('Sign In', textAlign: TextAlign.center)),
+        automaticallyImplyLeading: false
+        //backgroundColor: Colors.transparent,
+        //elevation: 0.0,
       ),
 
       body: Container(

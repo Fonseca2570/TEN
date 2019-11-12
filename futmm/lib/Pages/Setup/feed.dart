@@ -5,18 +5,11 @@ class feed extends StatefulWidget {
   @override
   _feedState createState() => _feedState();
 }
-Dialog showalert(String title, String texto, String data) {
+Dialog showalert(String title, String texto, String data, String img) {
   Dialog errorDialog = Dialog(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     //this right here
     child: Container(
-      /*decoration: new BoxDecoration(
-        image: new DecorationImage(
-          image: new AssetImage("assets/imagens/background.jpg"),
-          fit: BoxFit.fill,
-        ),
-        shape: BoxShape.circle,
-      ),*/
       height: 500.0,
       width: 300.0,
 
@@ -24,7 +17,7 @@ Dialog showalert(String title, String texto, String data) {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset('assets/imagens/background.jpg'),
+          Image.asset(img),
           Padding(
             padding: EdgeInsets.all(15.0),
             child: Text(title, style: TextStyle(color: Colors.red),),
@@ -54,11 +47,13 @@ class _feedState extends State<feed> {
   final news = ['Melhor Campo Novembro', 'Abertura da Aplicação', 'Inicio do desenvolvimento','Escolha do Tema', 'Formação do Grupo'];
   final datas = ['Publicado a 30-11-2019','Publicado a 30-12-2019','Publicado a 30-01-2019','Publicado a 30-02-2019','Publicado a 30-03-2019'];
   final noticias = ["O melhor campo do mes de novembro foi o campo xpto",'A partir do dia de hoje a nossa aplicação passou a estar funcional com acesso beta para ser utilizado pelos nosso utilizadores','Começamo hoje a criação da aplicação a mesma está a ser desenvolvida em flutter','O nosso tema é a criação de uma aplicação hibrida que permite fazer Matchmaking de jogos de futebol com amigos ou desconhecidos','Foi formado o nosso grupo para a cadeira de Ten Composta pelos alunos: João Fonseca, Ivo Ferreira, Carlos, Hugo Silva, Bruno, Hugo Alves, Nuno Bandeira'];
+  final img = ['assets/imagens/background1.jpg','assets/imagens/open.jpg','assets/imagens/flutter.jpg','assets/imagens/brain_storming.jpg','assets/imagens/team_forming.jpg'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Noticias'),
+          title: new Center(child: new Text('Noticias', textAlign: TextAlign.center)),
+          automaticallyImplyLeading: false
       ),
       body: ListView.builder(
         itemCount: 5,
@@ -68,7 +63,7 @@ class _feedState extends State<feed> {
             subtitle: Text(datas[index]),
             contentPadding: EdgeInsets.all(25.0),
             onTap: () async {
-              showDialog(context: context, builder: (BuildContext context) => showalert(news[index], noticias[index], datas[index]));
+              showDialog(context: context, builder: (BuildContext context) => showalert(news[index], noticias[index], datas[index], img[index]));
             },
           );
 

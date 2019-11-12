@@ -12,7 +12,9 @@ class _WelcomePage extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to FutMM'),
+          title: new Center(child: new Text('FutMM', textAlign: TextAlign.center)),
+          automaticallyImplyLeading: false
+
       ),
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
