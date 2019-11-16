@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:futmm/Pages/Setup/signIn.dart';
-import 'package:futmm/Pages/Setup/lista_campos.dart';
 
 class feed extends StatefulWidget {
   @override
@@ -75,8 +74,6 @@ class _feedState extends State<feed> {
         onTap: (index){
           if(index == 0){
             Navigator.push(context, MaterialPageRoute(builder: (context) => feed()));
-          }if(index==1){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => lista_campos()));
           }
           else{
             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(), fullscreenDialog: true));
