@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:futmm/Pages/Setup/field.dart';
 import 'package:futmm/Pages/Setup/campo.dart';
+import 'package:futmm/Pages/Setup/signIn.dart';
+import 'package:futmm/Pages/Setup/feed.dart';
+import 'package:futmm/Pages/Setup/functions/menuBar.dart';
 
 class fields extends StatefulWidget {
   @override
@@ -45,6 +48,7 @@ class _fieldsState extends State<fields> {
           },
         ),
       ),
+      bottomNavigationBar: getBar(context),
     );
   }
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:futmm/Pages/Setup/campo.dart';
+import 'feed.dart';
+import 'fields_page.dart';
+import 'functions/menuBar.dart';
+import 'signIn.dart';
 
 class field extends StatelessWidget {
   final Campo campo;
@@ -18,6 +22,7 @@ class field extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: Text(campo.tipologia.toString()),
       ),
+      bottomNavigationBar: getBar(context)
     );
   }
 }

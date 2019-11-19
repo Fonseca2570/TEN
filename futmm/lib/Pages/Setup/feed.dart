@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:futmm/Pages/Setup/signIn.dart';
 import 'package:futmm/Pages/Setup/fields_page.dart';
 
+import 'functions/menuBar.dart';
+
 class feed extends StatefulWidget {
   @override
   _feedState createState() => _feedState();
@@ -70,34 +72,7 @@ class _feedState extends State<feed> {
 
         }),
       // Navegaçao
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // this will be set when a new tab is tapped
-        onTap: (index){
-          if(index == 0){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => feed()));
-          }
-          if(index == 1){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => fields()));
-          }
-          else{
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(), fullscreenDialog: true));
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.notifications),
-            title: new Text('Feed'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.calendar_today),
-            title: new Text('Campos'),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profile')
-          )
-        ],
-      ),
+      bottomNavigationBar: getBar(context)
     );
   }
 }
