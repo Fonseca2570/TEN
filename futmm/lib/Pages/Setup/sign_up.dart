@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:futmm/Pages/Setup/signIn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -62,6 +63,12 @@ class _SignUpPageState extends State<SignUpPage> {
       try{
         AuthResult user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
         user.user.sendEmailVerification();
+        Firestore.instance.collection("users")
+            .add({
+          'auth': user.user.uid,
+          'email': user.user.email,
+          'nickname': ""
+        });
         Navigator.of(context).pop();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
       }

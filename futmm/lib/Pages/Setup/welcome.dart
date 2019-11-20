@@ -20,7 +20,7 @@ class _WelcomePage extends State<WelcomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Image.asset("assets/imagens/logo.png",height: 250, width: 250,),
+            Image.asset("assets/imagens/logo.jpg",height: 250, width: 250,),
             Padding(
               padding: EdgeInsets.all(50.0),
             ),

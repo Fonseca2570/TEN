@@ -22,7 +22,7 @@ class _fieldsState extends State<fields> {
         title: Text(document['nome'].toString()),
         subtitle: Text(document['tipologia'].toString()),
         onTap: (){
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(campo: new Campo(document['nome'], document['tipologia']))));
+          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'])));
         },
       );
     }).toList();

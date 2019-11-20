@@ -5,6 +5,8 @@ class profilePage extends StatefulWidget {
   _profilePageState createState() => _profilePageState();
 }
 
+
+
 class _profilePageState extends State<profilePage> {
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,6 @@ class _profilePageState extends State<profilePage> {
         title: Text("Colocar nome Profile"),
       ),
       body: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Image.asset("assets/imagens/profile.png",height: 200, width: 200,),
@@ -22,7 +23,6 @@ class _profilePageState extends State<profilePage> {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text("Nickname"),
               ],
