@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:futmm/Pages/Setup/campo.dart';
@@ -7,8 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class field extends StatefulWidget {
   String value;
+  final FirebaseUser user;
 
-  field({Key key, this.value}) : super(key: key);
+  field({Key key, this.value, this.user}) : super(key: key);
   @override
   _fieldState createState() => _fieldState();
 }
@@ -44,7 +46,7 @@ class _fieldState extends State<field> {
           },
         ),
       ),
-      bottomNavigationBar: getBar(context)
+      bottomNavigationBar: getBar(context, widget.user)
     );
   }
 }

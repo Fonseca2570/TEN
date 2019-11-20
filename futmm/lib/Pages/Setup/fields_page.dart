@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:futmm/Pages/Setup/field.dart';
@@ -7,13 +8,16 @@ import 'package:futmm/Pages/Setup/feed.dart';
 import 'package:futmm/Pages/Setup/functions/menuBar.dart';
 
 class fields extends StatefulWidget {
+  final FirebaseUser user;
+
+  fields({Key key, this.user}) : super(key: key);
   @override
   _fieldsState createState() => _fieldsState();
 }
 
 class _fieldsState extends State<fields> {
 
-  List<Widget> makeListWidget(AsyncSnapshot snapshot){
+  List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
         leading: new CircleAvatar(
@@ -22,7 +26,7 @@ class _fieldsState extends State<fields> {
         title: Text(document['nome'].toString()),
         subtitle: Text(document['tipologia'].toString()),
         onTap: (){
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'])));
+          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'], user: user)));
         },
       );
     }).toList();
@@ -43,12 +47,12 @@ class _fieldsState extends State<fields> {
           builder: (context,snapshot){
             if(snapshot.data == null) return CircularProgressIndicator();
             return ListView(
-              children: makeListWidget(snapshot),
+              children: makeListWidget(snapshot, widget.user),
             );
           },
         ),
       ),
-      bottomNavigationBar: getBar(context),
+      bottomNavigationBar: getBar(context,widget.user),
     );
   }
 }

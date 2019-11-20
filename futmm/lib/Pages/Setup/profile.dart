@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'functions/menuBar.dart';
+
 class profilePage extends StatefulWidget {
+  final FirebaseUser user;
+
+  profilePage({Key key, this.user}) : super(key: key);
   @override
   _profilePageState createState() => _profilePageState();
 }
@@ -29,6 +35,7 @@ class _profilePageState extends State<profilePage> {
             ),
         ],
       ),
+      bottomNavigationBar: getBar(context,widget.user),
     );
   }
 }

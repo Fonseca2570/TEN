@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:futmm/Pages/Setup/signIn.dart';
 import 'package:futmm/Pages/Setup/fields_page.dart';
@@ -5,6 +6,9 @@ import 'package:futmm/Pages/Setup/fields_page.dart';
 import 'functions/menuBar.dart';
 
 class feed extends StatefulWidget {
+  final FirebaseUser user;
+
+  feed({Key key, this.user}) : super(key: key);
   @override
   _feedState createState() => _feedState();
 }
@@ -47,6 +51,7 @@ Dialog showalert(String title, String texto, String data, String img) {
 
 class _feedState extends State<feed> {
   int _currentIndex = 0;
+
   final news = ['Melhor Campo Novembro', 'Abertura da Aplicação', 'Inicio do desenvolvimento','Escolha do Tema', 'Formação do Grupo'];
   final datas = ['Publicado a 30-11-2019','Publicado a 30-12-2019','Publicado a 30-01-2019','Publicado a 30-02-2019','Publicado a 30-03-2019'];
   final noticias = ["O melhor campo do mes de novembro foi o campo xpto",'A partir do dia de hoje a nossa aplicação passou a estar funcional com acesso beta para ser utilizado pelos nosso utilizadores','Começamo hoje a criação da aplicação a mesma está a ser desenvolvida em flutter','O nosso tema é a criação de uma aplicação hibrida que permite fazer Matchmaking de jogos de futebol com amigos ou desconhecidos','Foi formado o nosso grupo para a cadeira de Ten Composta pelos alunos: João Fonseca, Ivo Ferreira, Carlos, Hugo Silva, Bruno, Hugo Alves, Nuno Bandeira'];
@@ -55,7 +60,7 @@ class _feedState extends State<feed> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: new Center(child: new Text('Noticias', textAlign: TextAlign.center)),
+          title: new Center(child: new Text(widget.user.email, textAlign: TextAlign.center)),
           automaticallyImplyLeading: false
       ),
       body: ListView.builder(
@@ -72,7 +77,7 @@ class _feedState extends State<feed> {
 
         }),
       // Navegaçao
-      bottomNavigationBar: getBar(context)
+      bottomNavigationBar: getBar(context, widget.user)
     );
   }
 }
