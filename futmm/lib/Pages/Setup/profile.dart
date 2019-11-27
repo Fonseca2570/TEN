@@ -88,9 +88,6 @@ class _profilePageState extends State<profilePage> {
                 }
               }
             ),
-            /*Image.network(
-              'https://picsum.photos/250?image=9',
-            ),*/
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

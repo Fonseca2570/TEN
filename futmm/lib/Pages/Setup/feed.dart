@@ -60,7 +60,7 @@ class _feedState extends State<feed> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: new Center(child: new Text(widget.user.email, textAlign: TextAlign.center)),
+          title: new Center(child: new Text("Feed", textAlign: TextAlign.center)),
           automaticallyImplyLeading: false
       ),
       body: ListView.builder(
