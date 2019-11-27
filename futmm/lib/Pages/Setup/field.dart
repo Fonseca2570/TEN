@@ -29,7 +29,7 @@ class _fieldState extends State<field> {
       body: Column(
         children: <Widget>[
               StreamBuilder(
-                stream: Firestore.instance.collection('campos/Afurada/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
+                stream: Firestore.instance.collection('campos/'+widget.value+'/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
                 builder: (context,snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
