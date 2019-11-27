@@ -17,13 +17,7 @@ class field extends StatefulWidget {
 
 class _fieldState extends State<field> {
 
-  List<Widget> makeListWidget(AsyncSnapshot snapshot){
-    return snapshot.data.documents.map<Widget>((document){
-      return ListTile(
-        title: Text(document['15-16'].toString()),
-      );
-    }).toList();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +26,101 @@ class _fieldState extends State<field> {
         title: Text(widget.value),
       ),
 
-      body: Container(
+      body: Column(
+        children: <Widget>[
+              StreamBuilder(
+                stream: Firestore.instance.collection('campos/Afurada/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
+                builder: (context,snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  else {
+                    String hora = snapshot.data.documents.map((
+                        doc) => doc['15-16']).toString()
+                        .replaceAll("(", "")
+                        .replaceAll(")", "");
+                    return ListTile(
+                      title: Text('Horario das 15:00 até as 16:00 '),
+                      subtitle: Text('Nº de elementos neste horario ' + hora),
+                    );
+                  }
+                },
+              ),
+          StreamBuilder(
+            stream: Firestore.instance.collection('campos/Afurada/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
+            builder: (context,snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+              else {
+                String hora = snapshot.data.documents.map((
+                    doc) => doc['16-17']).toString()
+                    .replaceAll("(", "")
+                    .replaceAll(")", "");
+                return ListTile(
+                  title: Text('Horario das 16:00 até as 17:00 '),
+                  subtitle: Text('Nº de elementos neste horario ' + hora),
+                );
+              }
+            },
+          ),
+          StreamBuilder(
+            stream: Firestore.instance.collection('campos/Afurada/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
+            builder: (context,snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+              else {
+                String hora = snapshot.data.documents.map((
+                    doc) => doc['17-18']).toString()
+                    .replaceAll("(", "")
+                    .replaceAll(")", "");
+                return ListTile(
+                  title: Text('Horario das 17:00 até as 18:00 '),
+                  subtitle: Text('Nº de elementos neste horario ' + hora),
+                );
+              }
+            },
+          ),
+          StreamBuilder(
+            stream: Firestore.instance.collection('campos/Afurada/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
+            builder: (context,snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+              else {
+                String hora = snapshot.data.documents.map((
+                    doc) => doc['18-19']).toString()
+                    .replaceAll("(", "")
+                    .replaceAll(")", "");
+                return ListTile(
+                  title: Text('Horario das 18:00 até as 19:00 '),
+                  subtitle: Text('Nº de elementos neste horario ' + hora),
+                );
+              }
+            },
+          ),
+          StreamBuilder(
+            stream: Firestore.instance.collection('campos/Afurada/Data').where('data', isEqualTo: '20-12-2019').snapshots(),
+            builder: (context,snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+              else {
+                String hora = snapshot.data.documents.map((
+                    doc) => doc['19-20']).toString()
+                    .replaceAll("(", "")
+                    .replaceAll(")", "");
+                return ListTile(
+                  title: Text('Horario das 19:00 até as 20:00 '),
+                  subtitle: Text('Nº de elementos neste horario ' + hora),
+                );
+              }
+            },
+          ),
 
-        padding: EdgeInsets.all(16.0),
+        ],
 
-        child: StreamBuilder(
-          stream: Firestore.instance.collection('campos/Afurada/Data').snapshots(),
-          builder: (context,snapshot){
-            if(snapshot.data == null) return CircularProgressIndicator();
-            return ListView(
-              children: makeListWidget(snapshot),
-            );
-          },
-        ),
       ),
       bottomNavigationBar: getBar(context, widget.user)
     );

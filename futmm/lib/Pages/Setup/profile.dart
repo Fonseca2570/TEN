@@ -73,7 +73,30 @@ class _profilePageState extends State<profilePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Image.asset("assets/imagens/profile.png",height: 200, width: 200,),
+            //Image.asset("assets/imagens/profile.png",height: 200, width: 200,),
+            StreamBuilder(
+              stream: Firestore.instance.collection('users').where('email', isEqualTo: widget.user.email).snapshots(),
+              builder: (context, snapshot){
+                if(!snapshot.hasData){
+                  return Image.asset("assets/imagens/profile.png",height: 200, width: 200,);
+                }
+                else{
+                  String img = snapshot.data.documents.map((doc) => doc['url']).toString().replaceAll("(", "").replaceAll(")", "");
+                  return Image.network(
+                    img,height: 200,width: 200,
+                  );
+                }
+              }
+            ),
+            /*Image.network(
+              'https://picsum.photos/250?image=9',
+            ),*/
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                ],
+            ),
             Padding(
               padding: EdgeInsets.all(50.0),
             ),
