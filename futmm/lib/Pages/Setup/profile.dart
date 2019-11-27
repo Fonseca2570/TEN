@@ -13,12 +13,58 @@ class profilePage extends StatefulWidget {
   _profilePageState createState() => _profilePageState();
 }
 
+Dialog editNickname(String nickname, FirebaseUser user, TextEditingController myController, BuildContext context) {
+  Dialog errorDialog = Dialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    //this right here
+    child: Container(
+      height: 300.0,
+      width: 200.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          TextField(
+            controller: myController,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: nickname,
+
+            ),
+
+          ),
+          RaisedButton(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(Icons.save),
+                Text("Guardar")
+              ],
+            ),
+            onPressed: () {
+              //print(myController.text);
+              if(myController.text != ""){
+                updateValores(myController.text, user);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => profilePage(user: user)));
+              }
+            },
+            color: Colors.green,
+
+          )
+        ]
+      ),
+    ),
+  );
+  return errorDialog;
+}
+
 
 
 class _profilePageState extends State<profilePage> {
   @override
+  String s;
+  final myController = TextEditingController();
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: new Center(child: new Text("Profile")),
@@ -40,13 +86,14 @@ class _profilePageState extends State<profilePage> {
                     if(!snapshot.hasData){
                       return CircularProgressIndicator();
                     }
-                    String s = getNick(snapshot).toString().replaceAll("(", "");
-                    s = s.replaceAll(")", "");
+                    s = getNick(snapshot).toString().replaceAll("(", "").replaceAll(")", "");
                     return Text ("Nickname: "+s);
                   },
                 ),
                 RaisedButton(
-                  onPressed: null,
+                  onPressed: () {
+                    showDialog(context: context, builder: (BuildContext context) => editNickname(s, widget.user, myController, context));
+                  },
                   child: Icon(Icons.edit),
                 ),
               ],
@@ -60,6 +107,12 @@ class _profilePageState extends State<profilePage> {
 getNick(AsyncSnapshot<QuerySnapshot> snapshot) {
   return snapshot.data.documents
       .map((doc) => doc['nickname']).toString();
+}
+
+updateValores(String newNick, FirebaseUser user) async{
+  Firestore.instance.collection('users').document(user.uid).updateData({
+    'nickname' : newNick
+  });
 }
 
 

@@ -63,11 +63,11 @@ class _SignUpPageState extends State<SignUpPage> {
       try{
         AuthResult user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
         user.user.sendEmailVerification();
-        Firestore.instance.collection("users")
-            .add({
+        Firestore.instance.collection("users").document(user.user.uid)
+            .setData({
           'auth': user.user.uid,
           'email': user.user.email,
-          'nickname': ""
+          'nickname': user.user.email,
         });
         Navigator.of(context).pop();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
