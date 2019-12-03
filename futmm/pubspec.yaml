@@ -24,6 +24,7 @@ dependencies:
   cloud_firestore: ^0.12.10
   firebase_messaging: ^5.1.8
   after_layout: ^1.0.7+2
+  flutter_calendar_carousel: ^1.4.9
 
 
   # The following adds the Cupertino Icons font to your application.

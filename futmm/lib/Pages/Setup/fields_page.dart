@@ -26,7 +26,7 @@ class _fieldsState extends State<fields> {
         title: Text(document['nome'].toString()),
         subtitle: Text(document['tipologia'].toString()),
         onTap: (){
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'], user: user)));
+          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'], user: user, data: new DateTime.now())));
         },
       );
     }).toList();
