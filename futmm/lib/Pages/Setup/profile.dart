@@ -34,6 +34,7 @@ Dialog editImage(FirebaseUser user, TextEditingController myController, BuildCon
                     Firestore.instance.collection('users').document(user.uid).updateData({
                       'url': 'profile.png',
                     });
+                    Navigator.pop(context);
                   },
                   child: Container(
                     child: ClipRRect(
@@ -50,6 +51,7 @@ Dialog editImage(FirebaseUser user, TextEditingController myController, BuildCon
                     Firestore.instance.collection('users').document(user.uid).updateData({
                       'url': 'ouro.jpg',
                     });
+                    Navigator.pop(context);
                   },
                   child: Container(
                     child: ClipRRect(
@@ -62,7 +64,21 @@ Dialog editImage(FirebaseUser user, TextEditingController myController, BuildCon
                 Padding(
                     padding: EdgeInsets.only(left: 6.0)
                 ),
-                Image.asset("assets/imagens/chuteira.jpg", height: 80, width: 80,),
+                InkWell(
+                  onTap: () {
+                    Firestore.instance.collection('users').document(user.uid).updateData({
+                      'url': 'chuteira.jpg',
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/imagens/chuteira.jpg", height: 80, width: 80,),
+                    ),
+                  ),
+                ),
+
               ],
             ),
             Row(
@@ -70,35 +86,58 @@ Dialog editImage(FirebaseUser user, TextEditingController myController, BuildCon
                 Padding(
                     padding: EdgeInsets.only(left: 6.0)
                 ),
-                Image.asset("assets/imagens/oliver.jpg", height: 80, width: 80,),
+                InkWell(
+                  onTap: () {
+                    Firestore.instance.collection('users').document(user.uid).updateData({
+                      'url': 'oliver.jpg',
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/imagens/oliver.jpg", height: 80, width: 80,),
+                    ),
+                  ),
+                ),
+
                 Padding(
                     padding: EdgeInsets.only(left: 6.0)
                 ),
-                Image.asset("assets/imagens/benji.jpg", height: 80, width: 80,),
+                InkWell(
+                  onTap: () {
+                    Firestore.instance.collection('users').document(user.uid).updateData({
+                      'url': 'benji.jpg',
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/imagens/benji.jpg", height: 80, width: 80,),
+                    ),
+                  ),
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 6.0)
                 ),
-                Image.asset("assets/imagens/tobi.jpg", height: 80, width: 80,),
+                InkWell(
+                  onTap: () {
+                    Firestore.instance.collection('users').document(user.uid).updateData({
+                      'url': 'tobi.jpg',
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/imagens/tobi.jpg", height: 80, width: 80,),
+                    ),
+                  ),
+                ),
+
               ],
             ),
-            RaisedButton(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(Icons.save),
-                  Text("Guardar")
-                ],
-              ),
-              onPressed: () {
-                //print(myController.text);
-                if(myController.text != ""){
-                  updateValores(myController.text, user);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => profilePage(user: user)));
-                }
-              },
-              color: Colors.green,
-
-            )
           ]
       ),
     ),
@@ -171,7 +210,6 @@ class _profilePageState extends State<profilePage> {
             Padding(
               padding: EdgeInsets.all(8.0),
             ),
-            //Image.asset("assets/imagens/profile.png",height: 200, width: 200,),
             StreamBuilder(
               stream: Firestore.instance.collection('users').where('email', isEqualTo: widget.user.email).snapshots(),
               builder: (context, snapshot){
@@ -190,31 +228,34 @@ class _profilePageState extends State<profilePage> {
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-
-                ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(6.0),
-            ),
-            RaisedButton(
-              onPressed: () {
-                showDialog(context: context, builder: (BuildContext context) => editImage(widget.user, myController, context));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(
-                    Icons.edit,
+                  Padding(
+                    padding: EdgeInsets.all(6.0),
                   ),
-                  Text("Editar Imagem"),
-                ],
-              )
+                  RaisedButton(
+                      onPressed: () {
+                        showDialog(context: context, builder: (BuildContext context) => editImage(widget.user, myController, context));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(
+                            Icons.edit,
+                          ),
+                          Text("Editar Imagem"),
+                        ],
+                      )
 
+                  ),
+                ],
             ),
+
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                ),
                 StreamBuilder(
                   stream: Firestore.instance.collection('users').where('email', isEqualTo: widget.user.email).snapshots(),
                   builder: (context, snapshot){
@@ -229,7 +270,16 @@ class _profilePageState extends State<profilePage> {
                   onPressed: () {
                     showDialog(context: context, builder: (BuildContext context) => editNickname(s, widget.user, myController, context));
                   },
-                  child: Icon(Icons.edit),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.edit,
+                      ),
+                      Text("Editar nickname"),
+                    ],
+                  ),
                 ),
               ],
             ),
