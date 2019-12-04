@@ -1,10 +1,13 @@
 import 'dart:async';
-
+import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:path_provider/path_provider.dart';
 import 'functions/menuBar.dart';
+import 'package:image_picker/image_picker.dart';
 
 class profilePage extends StatefulWidget {
   final FirebaseUser user;
@@ -194,7 +197,39 @@ Dialog editNickname(String nickname, FirebaseUser user, TextEditingController my
 
 
 
+
+
+
 class _profilePageState extends State<profilePage> {
+  File _image;
+  String _uploadedFileURL;
+  Future chooseFile() async {
+    await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
+      setState(() {
+        _image = image;
+      });
+      uploadFile();
+    });
+  }
+
+  Future uploadFile() async {
+    var user = widget.user.uid;
+    StorageReference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('$user.jpg');
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    print('File Uploaded');
+    storageReference.getDownloadURL().then((fileURL) {
+      setState(() {
+        _uploadedFileURL = fileURL;
+      });
+    });
+    Firestore.instance.collection('users').document(widget.user.uid).updateData({
+      'url': _uploadedFileURL,
+    });
+  }
+
   @override
   String s;
   final myController = TextEditingController();
@@ -218,9 +253,8 @@ class _profilePageState extends State<profilePage> {
                 }
                 else{
                   String img = snapshot.data.documents.map((doc) => doc['url']).toString().replaceAll("(", "").replaceAll(")", "");
-                  return Image.asset(
-                    "assets/imagens/"+img, height: 200, width: 200,
-                  );
+                  //return Image.asset("assets/imagens/"+img, height: 200, width: 200,);
+                  return Image.network(img, width: 200, height: 200,);
                 }
 
               }
@@ -233,7 +267,7 @@ class _profilePageState extends State<profilePage> {
                   ),
                   RaisedButton(
                       onPressed: () {
-                        showDialog(context: context, builder: (BuildContext context) => editImage(widget.user, myController, context));
+                        chooseFile();
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -301,5 +335,7 @@ updateValores(String newNick, FirebaseUser user) async{
     });
   }
 }
+
+
 
 

@@ -25,6 +25,9 @@ dependencies:
   firebase_messaging: ^5.1.8
   after_layout: ^1.0.7+2
   flutter_calendar_carousel: ^1.4.9
+  image_picker: ^0.5.0
+  path_provider: ^1.4.5
+  firebase_storage: ^3.0.8
 
 
   # The following adds the Cupertino Icons font to your application.
