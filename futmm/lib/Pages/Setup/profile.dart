@@ -221,13 +221,11 @@ class _profilePageState extends State<profilePage> {
     await uploadTask.onComplete;
     print('File Uploaded');
     storageReference.getDownloadURL().then((fileURL) {
-      setState(() {
-        _uploadedFileURL = fileURL;
+      Firestore.instance.collection('users').document(widget.user.uid).updateData({
+        'url': fileURL,
       });
     });
-    Firestore.instance.collection('users').document(widget.user.uid).updateData({
-      'url': _uploadedFileURL,
-    });
+
   }
 
   @override
