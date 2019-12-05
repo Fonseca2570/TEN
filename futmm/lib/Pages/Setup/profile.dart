@@ -201,6 +201,7 @@ Dialog editNickname(String nickname, FirebaseUser user, TextEditingController my
 
 
 class _profilePageState extends State<profilePage> {
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   File _image;
   String _uploadedFileURL;
   Future chooseFile() async {
@@ -263,7 +264,7 @@ class _profilePageState extends State<profilePage> {
                   Padding(
                     padding: EdgeInsets.all(6.0),
                   ),
-                  RaisedButton(
+                  /*RaisedButton(
                       onPressed: () {
                         chooseFile();
                       },
@@ -278,10 +279,32 @@ class _profilePageState extends State<profilePage> {
                         ],
                       )
 
+                  ),*/
+                  Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: Color(0xff009933),
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width-70,
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: chooseFile,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(
+                            Icons.edit,
+                          ),
+                          Text("Editar Imagem",textAlign: TextAlign.center,
+                              style: style.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.bold)),
+                        ],
+                      )
+                    ),
                   ),
                 ],
             ),
-
+            new Divider(height: 50,color: Colors.black),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -295,10 +318,12 @@ class _profilePageState extends State<profilePage> {
                       return CircularProgressIndicator();
                     }
                     s = getNick(snapshot).toString().replaceAll("(", "").replaceAll(")", "");
-                    return Text ("Nickname: "+s);
+                    return Text ("Nickname: "+s,textAlign: TextAlign.center,
+                        style: style.copyWith(
+                            color: Colors.black, fontWeight: FontWeight.bold));
                   },
                 ),
-                RaisedButton(
+                /*RaisedButton(
                   onPressed: () {
                     showDialog(context: context, builder: (BuildContext context) => editNickname(s, widget.user, myController, context));
                   },
@@ -311,6 +336,33 @@ class _profilePageState extends State<profilePage> {
                       ),
                       Text("Editar nickname"),
                     ],
+                  ),
+                ),*/
+                Padding(
+                  padding: EdgeInsets.all(8.0)
+                ),
+                Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Color(0xff009933),
+                  child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width-70,
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: () {
+                        showDialog(context: context, builder: (BuildContext context) => editNickname(s, widget.user, myController, context));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(
+                            Icons.edit,
+                          ),
+                          Text("Editar Nickname",textAlign: TextAlign.center,
+                              style: style.copyWith(
+                                  color: Colors.white, fontWeight: FontWeight.bold)),
+                        ],
+                      )
                   ),
                 ),
               ],
