@@ -10,56 +10,59 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
   String _email, _password;
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: new Center(child: new Text('Sign In', textAlign: TextAlign.center)),
-        automaticallyImplyLeading: false
-        //backgroundColor: Colors.transparent,
-        //elevation: 0.0,
-      ),
-
       body: Container(
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-            image: new AssetImage("assets/imagens/background.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
         child: Form(
           key : _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextFormField(
-                validator: (input){
-                  if(input.isEmpty){
-                    return 'Please Type an email';
-                  }
-                },
-                onSaved: (input) => _email = input,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                ),
+              Image.asset("assets/imagens/logo.jpg", width: 180,height: 180,),
+              Padding(
+                padding: EdgeInsets.all(10.0),
               ),
               TextFormField(
-                validator: (input){
-                  if(input.length < 6){
-                    return 'Your password needs to be atleast 6 characters';
-                  }
-                },
+                onSaved: (input) => _email = input,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  hintText: 'Email',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+              ),
+              TextFormField(
                 onSaved: (input) => _password = input,
                 decoration: InputDecoration(
-                    labelText: 'Password'
+                    hintText: 'Password',
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.blue, width: 3.0)),
+
                 ),
                 obscureText: true,
               ),
-              RaisedButton(
-                onPressed: signIn,
-                child: Text('Sign in'),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+              ),
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(30.0),
+                color: Color(0xff009933),
+                child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: signIn,
+                  child: Text("Login",
+                    textAlign: TextAlign.center,
+                    style: style.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
               ),
             ],
           ),

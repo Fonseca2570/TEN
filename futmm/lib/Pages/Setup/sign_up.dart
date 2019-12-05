@@ -10,48 +10,69 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   String _email, _password;
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
           title: new Center(child: new Text('Sign Up', textAlign: TextAlign.center)),
           automaticallyImplyLeading: false
-      ),
-      body: Form(
-        key : _formKey,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              validator: (input){
-                if(input.isEmpty){
-                  return 'Please Type an email';
-                }
-              },
-              onSaved: (input) => _email = input,
-              decoration: InputDecoration(
-                  labelText: 'Email'
+      ),*/
+      body: Container(
+        child: Form(
+          key : _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Image.asset("assets/imagens/registar.png",width: 180, height: 180,),
+              Padding(
+                padding: EdgeInsets.all(10.0),
               ),
-            ),
-            TextFormField(
-              validator: (input){
-                if(input.length < 6){
-                  return 'Your password needs to be atleast 6 characters';
-                }
-              },
-              onSaved: (input) => _password = input,
-              decoration: InputDecoration(
-                  labelText: 'Password'
+              TextFormField(
+                onSaved: (input) => _email = input,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  hintText: 'Email',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                ),
               ),
-              obscureText: true,
-            ),
-            RaisedButton(
-              onPressed: signUp,
-              child: Text('Sign Up'),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.all(10.0),
+              ),
+              TextFormField(
+                onSaved: (input) => _password = input,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.blue, width: 3.0)),
+                ),
+                obscureText: true,
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+              ),
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(30.0),
+                color: Color(0xff66ff33),
+                child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: signUp,
+                  child: Text("Registar",
+                      textAlign: TextAlign.center,
+                      style: style.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+
+
     );
   }
 
