@@ -249,11 +249,28 @@ class _profilePageState extends State<profilePage> {
               builder: (context, snapshot){
                 if(!snapshot.hasData){
                   return Image.asset("assets/imagens/profile.png",height: 200, width: 200,);
+
                 }
                 else{
                   String img = snapshot.data.documents.map((doc) => doc['url']).toString().replaceAll("(", "").replaceAll(")", "");
                   //return Image.asset("assets/imagens/"+img, height: 200, width: 200,);
-                  return Image.network(img, width: 200, height: 200,);
+                  //return Image.network(img, width: 200, height: 200,);
+                  return Material(
+                    elevation: 4.0,
+                    shape: CircleBorder(side: BorderSide(color: Colors.black)),
+                    clipBehavior: Clip.hardEdge,
+                    color: Colors.transparent,
+
+                    child: Ink.image(
+                      image: NetworkImage(img),
+                      fit: BoxFit.cover,
+                      width: 240.0,
+                      height: 240.0,
+                      child: InkWell(
+                        onTap: () {},
+                      ),
+                    ),
+                  );
                 }
 
               }

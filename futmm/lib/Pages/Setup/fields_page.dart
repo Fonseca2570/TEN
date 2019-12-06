@@ -16,21 +16,48 @@ class fields extends StatefulWidget {
 }
 
 class _fieldsState extends State<fields> {
-
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
   List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
-        leading: new CircleAvatar(
-            child: new Image(image: new AssetImage(document['img'])),
+        /*leading: new CircleAvatar(
+            backgroundImage: AssetImage(document['img']),
+            radius: 30,
+
+        ),*/
+        leading: new Material(
+          elevation: 4.0,
+          //shape: CircleBorder(side: BorderSide(color: Colors.black)),
+          shape: ContinuousRectangleBorder(side: BorderSide(color: Colors.black)),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.transparent,
+
+          child: Ink.image(
+            image: AssetImage(document['img']),
+            fit: BoxFit.cover,
+            width: 100.0,
+            height: 100.0,
+            child: InkWell(
+              onTap: () {},
+            ),
+          ),
         ),
-        title: Text(document['nome'].toString()),
-        subtitle: Text(document['tipologia'].toString()),
+        title: Text(document['nome'].toString(),
+            style: style.copyWith(
+                color: Colors.black, fontWeight: FontWeight.bold)),
+        subtitle: Text(document['tipologia'].toString()+"x"+document['tipologia'].toString(),
+            style: style2.copyWith(
+                color: Colors.black,)),
+        trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
           Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'], user: user, data: new DateTime.now())));
         },
+
       );
     }).toList();
   }
+
 
 
   final databaseReference = Firestore.instance;
