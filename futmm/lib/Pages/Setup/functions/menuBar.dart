@@ -9,7 +9,18 @@ getBar (context, FirebaseUser user){
   return BottomNavigationBar(
     currentIndex: 0, // this will be set when a new tab is tapped
     onTap: (index){
-      if(index == 0){
+      switch (index){
+        case 0:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => feed(user: user)));
+          break;
+        case 1:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => fields(user: user)));
+          break;
+        case 2:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => profilePage(user: user)));
+          break;
+      }
+      /*if(index == 0){
         Navigator.push(context, MaterialPageRoute(builder: (context) => feed(user: user)));
       }
       if(index == 1){
@@ -17,7 +28,7 @@ getBar (context, FirebaseUser user){
       }
       if(index == 2){
         Navigator.push(context, MaterialPageRoute(builder: (context) => profilePage(user: user)));
-      }
+      }*/
     },
     items: [
       BottomNavigationBarItem(
