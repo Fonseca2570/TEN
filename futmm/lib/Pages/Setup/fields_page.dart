@@ -51,7 +51,7 @@ class _fieldsState extends State<fields> {
                 color: Colors.black,)),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'], user: user, data: new DateTime.now())));
+          Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: document['nome'], user: user, data: new DateTime.now(), tipologia: document['tipologia'])));
         },
 
       );

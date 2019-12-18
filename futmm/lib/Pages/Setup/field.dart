@@ -9,12 +9,14 @@ import 'functions/menuBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
+
 class field extends StatefulWidget {
   String value;
   final FirebaseUser user;
   DateTime data;
+  int tipologia;
 
-  field({Key key, this.value, this.user, this.data}) : super(key: key);
+  field({Key key, this.value, this.user, this.data, this.tipologia}) : super(key: key);
   @override
   _fieldState createState() => _fieldState();
 }
@@ -29,17 +31,20 @@ class _fieldState extends State<field> {
           return CircularProgressIndicator();
         }
         else {
-          String hora = snapshot.data.documents.map((
+          String jog = snapshot.data.documents.map((
               doc) => doc[horas]).toString()
               .replaceAll("(", "")
               .replaceAll(")", "");
-          if(hora == ""){
-            hora = "0";
+          if(jog == ""){
+            jog = "0";
           }
           List<String> horas1 = horas.split("-");
           return ListTile(
             title: Text('Horario das '+horas1[0]+':00 até as '+horas1[1]+':00 '),
-            subtitle: Text('Nº de elementos neste horario ' + hora),
+            subtitle: Text('Nº de elementos neste horario ' + jog),
+            onTap: () {
+              onTap(int.tryParse(jog), widget.tipologia, horas1[0], horas1[1]);
+            },
           );
         }
       },
@@ -91,10 +96,7 @@ class _fieldState extends State<field> {
                   horarios(widget.value, "17-18", widget.data),
                   horarios(widget.value, "18-19", widget.data),
                   horarios(widget.value, "19-20", widget.data),
-
-
                 ],
-
               ),
           ),
       ),
@@ -142,5 +144,73 @@ class _fieldState extends State<field> {
           );
         }
     );
+  }
+
+  void onTap(int dropdownValue, int tipologia, String hora1, String hora2) {
+    int drop = dropdownValue;
+    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+    void modal(int drop, int tipologia){
+      List<int> pessoas = List();
+      for (int i = 0; i < (tipologia * 2) + 1; i++){
+        pessoas.add(i);
+      }
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Column(
+              children: <Widget>[
+                Text("Estão inscritos " + dropdownValue.toString() + " jogadores",
+                    textAlign: TextAlign.center,
+                    style: style.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.bold)),
+                new DropdownButton<int>(
+                  value: drop,
+                  items: pessoas.map((int value) {
+                    return new DropdownMenuItem<int>(
+                      value: value,
+                      child: new Text(value.toString()),
+                    );
+                  }).toList(),
+                  onChanged: (int newValue) {
+                    drop = newValue;
+                    Navigator.pop(context);
+                    modal(drop, tipologia);
+                  },
+                ),
+                Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Color(0xff009933),
+                  child: MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    onPressed: (){
+                      updateJogadores(drop, widget.value, widget.data, hora1, hora2, dropdownValue);
+                      Navigator.pop(context);
+                    },
+                    child: Text("Guardar",
+                        textAlign: TextAlign.center,
+                        style: style.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
+            );
+          }
+      );
+    }
+    modal(drop, tipologia);
+  }
+
+  updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue) async{
+    if(jogadores != "0") {
+      String dia = data.toString().substring(8, 10);
+      String mes = data.toString().substring(5, 7);
+      String ano = data.toString().substring(0, 4);
+      jogadores = jogadores + dropDownValue;
+      Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
+        hora1+"-"+hora2: jogadores,
+      });
+    }
   }
 }
