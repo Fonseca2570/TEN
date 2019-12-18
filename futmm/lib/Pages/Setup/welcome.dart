@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:futmm/Pages/Setup/signIn.dart';
 import 'package:futmm/Pages/Setup/sign_up.dart';
+import 'package:futmm/utilities/styles.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -56,16 +58,39 @@ class _WelcomePage extends State<WelcomePage> {
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ),
             ),
+            SizedBox(width: 40),
+            Center(
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: Transform.scale(
+                      scale: 1.6,
+                      child: Switch(
+                        value: DM.isDark,
+                        onChanged:(value){
+                          setState(() {
+                            DM.isDark = value;
+                            ThemeProvider.controllerOf(context).nextTheme();
+                          });
+                        },
+                        activeTrackColor: Colors.lightGreenAccent,
+                        activeColor: Colors.green,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
     );
   }
 
   void navigateToSignIn(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(), fullscreenDialog: true));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ThemeConsumer(child: LoginPage()), fullscreenDialog: true));
   }
 
   void navigateToSignUp(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage(), fullscreenDialog: true));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ThemeConsumer(child: SignUpPage()), fullscreenDialog: true));
   }
 }
