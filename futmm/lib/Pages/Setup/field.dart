@@ -8,7 +8,8 @@ import 'package:futmm/Pages/Setup/campo.dart';
 import 'functions/menuBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+import 'package:flutter/foundation.dart';
+import 'dart:io';
 
 class field extends StatefulWidget {
   String value;
@@ -21,11 +22,14 @@ class field extends StatefulWidget {
   _fieldState createState() => _fieldState();
 }
 
-class _fieldState extends State<field> {
 
+class _fieldState extends State<field> {
   horarios(String campo, String horas, DateTime data){
+    String dia = data.toString().substring(8, 10);
+    String mes = data.toString().substring(5, 7);
+    String ano = data.toString().substring(0, 4);
     return StreamBuilder(
-      stream: Firestore.instance.collection('campos/' + campo + '/Data').where('data', isEqualTo: (data.day.toString() + "-" + data.month.toString() + "-" + data.year.toString())).snapshots(),
+      stream: Firestore.instance.collection('campos/' + campo + '/Data').where('data', isEqualTo: (dia + "-" + mes + "-" + ano)).snapshots(),
       builder: (context,snapshot) {
         if (!snapshot.hasData) {
           return CircularProgressIndicator();
@@ -43,7 +47,7 @@ class _fieldState extends State<field> {
             title: Text('Horario das '+horas1[0]+':00 até as '+horas1[1]+':00 '),
             subtitle: Text('Nº de elementos neste horario ' + jog),
             onTap: () {
-              onTap(int.tryParse(jog), widget.tipologia, horas1[0], horas1[1]);
+              onTap(int.tryParse(jog), widget.tipologia, horas1[0], horas1[1], int.parse(jog));
             },
           );
         }
@@ -146,12 +150,12 @@ class _fieldState extends State<field> {
     );
   }
 
-  void onTap(int dropdownValue, int tipologia, String hora1, String hora2) {
+  void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog) {
     int drop = dropdownValue;
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
     void modal(int drop, int tipologia){
       List<int> pessoas = List();
-      for (int i = 0; i < (tipologia * 2) + 1; i++){
+      for (int i = 0; i < (tipologia * 2) - jog; i++){
         pessoas.add(i);
       }
       showModalBottomSheet(
@@ -203,10 +207,26 @@ class _fieldState extends State<field> {
   }
 
   updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue) async{
-    if(jogadores != "0") {
+    bool hasData;
+    if(jogadores != 0) {
       String dia = data.toString().substring(8, 10);
       String mes = data.toString().substring(5, 7);
       String ano = data.toString().substring(0, 4);
+      Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((onValue){
+        if (!onValue.exists) {
+          Firestore.instance.collection('campos/' + widget.value + "/Data")
+              .document(dia + "-" + mes + "-" + ano)
+              .setData({
+            '15-16': 0,
+            '16-17': 0,
+            '17-18': 0,
+            '18-19': 0,
+            '19-20': 0,
+            'data': dia + "-" + mes + "-" + ano,
+          });
+          updateJogadores(jogadores, campo, data, hora1, hora2, dropDownValue);
+        }
+      });
       jogadores = jogadores + dropDownValue;
       Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
         hora1+"-"+hora2: jogadores,
