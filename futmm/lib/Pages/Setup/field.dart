@@ -155,8 +155,10 @@ class _fieldState extends State<field> {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
     void modal(int drop, int tipologia){
       List<int> pessoas = List();
-      for (int i = 0; i < (tipologia * 2) - jog; i++){
-        pessoas.add(i);
+      for (int i = 0; i <= (tipologia * 2) - jog; i++){
+        if ((tipologia * 2) - jog != 0){
+          pessoas.add(i);
+        }
       }
       showModalBottomSheet(
           context: context,
@@ -189,6 +191,9 @@ class _fieldState extends State<field> {
                     minWidth: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     onPressed: (){
+                      if ((tipologia * 2) - jog == 0){
+                        drop = 0;
+                      }
                       updateJogadores(drop, widget.value, widget.data, hora1, hora2, dropdownValue);
                       Navigator.pop(context);
                     },
@@ -233,4 +238,26 @@ class _fieldState extends State<field> {
       });
     }
   }
+
+  /*void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Erro"),
+          content: new Text("Número de jogadores máximos já resgitados!"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }*/
 }
