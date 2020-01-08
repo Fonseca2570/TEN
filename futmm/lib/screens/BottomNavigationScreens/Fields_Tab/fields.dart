@@ -176,9 +176,10 @@ class _FieldsState extends State<Fields> {
   void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog) {
     int drop = dropdownValue;
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+    //tipologia = 10;
     void modal(int drop, int tipologia){
       List<int> pessoas = List();
-      for (int i = 0; i <= (tipologia * 2) - jog; i++){
+      for (int i = jog; i <= (tipologia * 2); i++){
         if ((tipologia * 2) - jog != 0){
           pessoas.add(i);
         }
@@ -255,7 +256,7 @@ class _FieldsState extends State<Fields> {
           updateJogadores(jogadores, campo, data, hora1, hora2, dropDownValue);
         }
       });
-      jogadores = jogadores + dropDownValue;
+      //jogadores = jogadores + dropDownValue;
       Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
         hora1+"-"+hora2: jogadores,
       });
