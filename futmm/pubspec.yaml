@@ -19,19 +19,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.4.1+5
-  firebase_auth: ^0.14.0+5
-  cloud_firestore: ^0.12.10
-  firebase_messaging: ^5.1.8
-  after_layout: ^1.0.7+2
-  flutter_calendar_carousel: ^1.4.9
-  image_picker: ^0.5.0
-  path_provider: ^1.4.5
-  firebase_storage: ^3.0.8
-  dropdownfield: 1.0.0
-
   theme_provider: ^0.3.1
   flutter_signin_button: ^1.0.0
+  shared_preferences: ^0.5.6
+  page_transition: ^1.1.5
+  firebase_core: ^0.4.3+1
+  firebase_auth: ^0.15.3
+  cloud_firestore: ^0.13.0+1
+  firebase_analytics: ^5.0.9
+  progress_dialog: ^1.2.0
+  firebase_storage: ^3.1.0
+  image_picker: ^0.6.2+3
+  cached_network_image: ^2.0.0-rc
+  uuid: ^2.0.4
+  path_provider: ^1.5.1
+  flutter_image_compress: ^0.6.3
+  flutter_calendar_carousel: ^1.4.9
+  firebase_messaging: ^5.1.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,10 +56,12 @@ flutter_icons:
   image_path: "assets/images/appIcon.png"
 
 flutter:
+
   assets:
-    - assets/imagens/
     - assets/images/onboard/
     - assets/images/
+    - assets/images/UserApp/
+    - assets/imagens/
 
   fonts:
     - family: CM Sans Serif
@@ -66,14 +72,18 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
+
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
+
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

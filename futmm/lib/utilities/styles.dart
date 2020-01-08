@@ -1,6 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:futmm/onboard/onboarding_screen.dart';
+import 'package:futmm/screens/welcome_screen.dart';
 import 'package:futmm/utilities/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
+
+
+/*class OBW{
+  OBW._();
+  static bool isSeen = false;
+}*/
+
+/*splashScreenStatus(bool isThere){
+  if(isThere == true){
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+  }else{
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: DM.isDark ? Brightness.light : Brightness.dark,
+      statusBarIconBrightness: DM.isDark ? Brightness.light : Brightness.dark,
+    ));
+  }
+}*/
+
+checkCurrentStatus(BuildContext context){
+  var checkTheme = ThemeProvider.themeOf(context).id;
+  if(checkTheme == 'dark_theme'){
+    return true;
+  }else{
+    return false;
+  }
+}
 
 // Initialize the global variable that will define if the app is in dark mode or not
 class DM {
@@ -9,14 +44,24 @@ class DM {
 }
 // ------------------------------------------------
 
-// Check the current theme and set the variable above to true of false on startup.
+// Check the current theme and set the variable above to true of false on startup
 checkCurrentTheme(BuildContext context){
   var checkTheme = ThemeProvider.themeOf(context).id;
   checkTheme == 'dark_theme' ? DM.isDark = true : DM.isDark = false;
-  /*print (checkTheme);
-  print(DM.isDark);*/
 }
 // ------------------------------------------------
+
+
+//Check the current theme and return bool value to change attributes inside app
+checkDarkTheme(BuildContext context){
+  var checkTheme = ThemeProvider.themeOf(context).id;
+  if(checkTheme == 'dark_theme'){
+    return true;
+  }else{
+    return false;
+  }
+}
+//-------------------------------------------------
 
 
 // Defined the 2 themes this App has. LightMode and DarkMode
@@ -28,7 +73,7 @@ class OurThemes{
       id: "light_theme",
       description: "Light Theme",
       data: ThemeData(
-        accentColor: ColorsApp.dirtyWhite2Color,
+        accentColor: ColorsApp.dirtyWhiteColor,
         primaryColor: ColorsApp.whiteColor,
         scaffoldBackgroundColor: ColorsApp.whiteColor,
         brightness: Brightness.light,
@@ -62,18 +107,17 @@ class ColorsApp {
   // Main/ Primary Colors
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xFF000000);
-  static const Color normalGreenColor = Color(0xFF007012);  //009118 Old one
+  static const Color normalGreenColor = Color(0xFF009118);  //007012 Old one
   static const Color brightGreenColor = Color(0xFF04DB27);
 
   // Secondary Colors
   static const Color lightGreenColor = Color(0xFF65CB5D);
-  static const Color dirtyWhiteColor = Color(0xFFF6F5EB);
-  static const Color dirtyWhite2Color = Color(0xFFF5F5F2);
+  static const Color bGDirtyWhiteColor = Color(0xFFF6F5EB);
+  static const Color dirtyWhiteColor = Color(0xFFF5F5F2);
   static const Color greyColor = Color(0xFF707070);
   static const Color lightGreyColor = Color(0xFFE2E2E2);
   static const Color lightGreyColor2 = Color(0xFFC8C8C8); // Not so much used
 }
-
 
 
 class AppThemes {

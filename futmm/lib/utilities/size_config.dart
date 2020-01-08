@@ -40,11 +40,23 @@ class SizeConfig {
     heightMultiplier = _blockHeight;
     widthMultiplier = _blockWidth;
 
-    /*print(_blockWidth);
-    print(_blockHeight);*/
+    print(_blockWidth);
+    print(_blockHeight);
   }
 }
 
+/* Measurements used ------
+
+Asus:
+width : 3.7
+height : 7.8
+
+Pixel3aXL:
+
+width: 4
+height: 8
+
+------------------------ */
 
 /*import 'package:flutter/widgets.dart';
 class SizeConfig {
