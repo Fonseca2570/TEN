@@ -180,9 +180,10 @@ class _FieldsState extends State<Fields> {
     void modal(int drop, int tipologia){
       List<int> pessoas = List();
       for (int i = jog; i <= (tipologia * 2); i++){
-        if ((tipologia * 2) - jog != 0){
+        /*if ((tipologia * 2) - jog != 0){
           pessoas.add(i);
-        }
+        }*/
+        pessoas.add(i);
       }
       showModalBottomSheet(
           context: context,
