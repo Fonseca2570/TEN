@@ -9,9 +9,9 @@ import 'fields.dart';
 
 
 class FieldsScreen extends StatefulWidget {
-  final FirebaseUser user;
+  final String userId;
 
-  FieldsScreen({Key key, this.user}) : super(key: key);
+  FieldsScreen({Key key, this.userId}) : super(key: key);
 
   @override
   _FieldsScreenState createState() => _FieldsScreenState();
@@ -21,7 +21,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
-  List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
+  List<Widget> makeListWidget(AsyncSnapshot snapshot, String userId){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
         /*leading: new CircleAvatar(
@@ -53,7 +53,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user, data: DateTime.now(), tipologia: document['tipologia']))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: userId, data: DateTime.now(), tipologia: document['tipologia']))));
         },
       );
     }).toList();
@@ -100,7 +100,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
                         child: CircularProgressIndicator(),
                       );
                       return ListView(
-                        children: makeListWidget(snapshot, widget.user),
+                        children: makeListWidget(snapshot, widget.userId),
                       );
                     },
                   ),

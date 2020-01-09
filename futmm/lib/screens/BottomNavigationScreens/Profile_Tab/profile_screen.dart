@@ -5,7 +5,7 @@ import 'package:futmm/models/user_models.dart';
 import 'package:futmm/screens/BottomNavigationScreens/Profile_Tab/edit_profile_screen.dart';
 import 'package:futmm/services/auth_service.dart';
 import 'package:futmm/utilities/app_settings.dart';
-import 'package:futmm/utilities/contants.dart';
+import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/custom_buttons.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';

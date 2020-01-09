@@ -1,5 +1,5 @@
 import 'package:futmm/models/user_models.dart';
-import 'package:futmm/utilities/contants.dart';
+import 'package:futmm/utilities/constants.dart';
 
 class DataBaseService{
 

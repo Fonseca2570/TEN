@@ -5,12 +5,13 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
 
 class Fields extends StatefulWidget {
   String value;
-  final FirebaseUser user;
+  final String user;
   DateTime data;
   int tipologia;
 
@@ -192,7 +193,7 @@ class _FieldsState extends State<Fields> {
                 Text("Estão inscritos " + dropdownValue.toString() + " jogadores",
                     textAlign: TextAlign.center,
                     style: style.copyWith(
-                       fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold)),
                 new DropdownButton<int>(
                   value: drop,
                   items: pessoas.map((int value) {
