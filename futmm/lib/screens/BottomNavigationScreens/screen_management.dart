@@ -36,7 +36,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          FieldsScreen(),
+          FieldsScreen(userId: widget.userId),
           ScoreboardScreen(),
           HomeScreen(),
           MatchesScreen(),

@@ -5,13 +5,14 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class Fields extends StatefulWidget {
   String value;
-  final FirebaseUser user;
+  final String user;
   DateTime data;
   int tipologia;
 
