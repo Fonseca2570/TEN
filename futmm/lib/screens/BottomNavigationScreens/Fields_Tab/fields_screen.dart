@@ -24,11 +24,6 @@ class _FieldsScreenState extends State<FieldsScreen> {
   List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
-        /*leading: new CircleAvatar(
-            backgroundImage: AssetImage(document['img']),
-            radius: 30,
-
-        ),*/
         leading: new Material(
           elevation: 4.0,
           //shape: CircleBorder(side: BorderSide(color: Colors.black)),
