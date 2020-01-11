@@ -59,7 +59,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
             _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.linear);
           },
           activeColor: checkDarkTheme(context) ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor,
-          backgroundColor: Colors.transparent,
+          backgroundColor: checkDarkTheme(context) ? ColorsApp.blackColor : ColorsApp.whiteColor,
           border: null,
           inactiveColor: ColorsApp.lightGreyColor2,
           items: [

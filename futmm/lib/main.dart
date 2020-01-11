@@ -83,6 +83,7 @@ class _AppStartState extends State<AppStart> {
 
   @override
   Widget build(BuildContext context) {
+    systemOrientationPortraitUp();
     return Scaffold(
       backgroundColor: ColorsApp.whiteColor,
       body: Center(
