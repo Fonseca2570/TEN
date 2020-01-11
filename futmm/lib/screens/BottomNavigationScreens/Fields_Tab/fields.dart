@@ -16,6 +16,7 @@ class Fields extends StatefulWidget {
   DateTime data;
   int tipologia;
 
+
   Fields({Key key, this.value, this.user, this.data, this.tipologia}) : super(key: key);
   @override
   _FieldsState createState() => _FieldsState();
@@ -24,6 +25,8 @@ class Fields extends StatefulWidget {
 class _FieldsState extends State<Fields> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
+  String imagens = "bla bla";
+  String nickNames = "bla bla";
   List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
@@ -210,53 +213,17 @@ class _FieldsState extends State<Fields> {
     );
   }
 
-  Widget retornarlista(listaJogadores, index){
-    /*try {
-      if (listaJogadores.split("/")[index] != "") {
-        return ListTile(
-          leading: new Material(
-            elevation: 4.0,
-            shape: CircleBorder(side: BorderSide(color: Colors.black)),
-            //shape: ContinuousRectangleBorder(side: BorderSide()),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.transparent,
 
-            child: Ink.image(
-              image: AssetImage(""),
-              fit: BoxFit.cover,
-              width: 100.0,
-              height: 100.0,
-              child: InkWell(
-                onTap: () {},
-              ),
-            ),
-          ),
-          title: Text(listaJogadores.split("/")[index]),
-          subtitle: Text("teste"),
-        );
-      }
-      else {
-        return Text("Ainda ninguem se inscreveu");
-      }
-    } on Exception catch(_){
-      print("out of bounds");
-    }*/
-    
-    
-
-  }
 
 
   void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, String  user) {
     int drop = dropdownValue;
     String listaJogadores;
-    String imagens = "";
-    String nicknames = "";
     String dia = widget.data.toString().substring(8, 10);
     String mes = widget.data.toString().substring(5, 7);
     String ano = widget.data.toString().substring(0, 4);
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-    void modal(int drop, int tipologia, String listaJogadores, String imagens, String nicknames){
+    void modal(int drop, int tipologia, String listaJogadores, String imagens, String nickNames){
       List<int> pessoas = List();
       for (int i = jog; i <= (tipologia * 2); i++){
         pessoas.add(i);
@@ -281,7 +248,7 @@ class _FieldsState extends State<Fields> {
                   onChanged: (int newValue) {
                     drop = newValue;
                     Navigator.pop(context);
-                    modal(drop, tipologia, listaJogadores,imagens,nicknames);
+                    modal(drop, tipologia, listaJogadores,imagens,nickNames);
                   },
                 ),
                 Material(
@@ -326,7 +293,8 @@ class _FieldsState extends State<Fields> {
                           ),
                         ),
                       ),
-                      title: Text(listaJogadores.split("/")[Index].split(";")[0]),
+                      title: //Text(listaJogadores.split("/")[Index].split(";")[0]),
+                      Text(nickNames),
                       subtitle: Text("Numero de reservas: "+listaJogadores.split("/")[Index].split(";")[1]),
                     );
                   }),
@@ -347,14 +315,16 @@ class _FieldsState extends State<Fields> {
                 //Listajogadores é a variavel que tem os dados da firebase uid;nº reservas
                 // se fizer o comando abaixo ele impime os dados certos mas quando tento passar para o ListView builder ele parte
                 // List View ta na linha 308 se correres como ta agora consegues ver que funciona
-                print(onValue.data.values.toString().split(",")[1]);
-                print(onValue.data.values.toString().split(",")[0]);
+                //print(onValue.data.values.toString().split(",")[1]);
+                //print(onValue.data.values.toString().split(",")[0]);
+                nickNames = onValue.data.values.toString().split(",")[0] + "/";
+
               });
 
             }
 
 
-            modal(drop, tipologia, listaJogadores,imagens,nicknames);
+            modal(drop, tipologia, listaJogadores,imagens,nickNames);
           }
         });
       }
