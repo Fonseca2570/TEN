@@ -316,7 +316,7 @@ class _FieldsState extends State<Fields> {
                         color: Colors.transparent,
 
                         child: Ink.image(
-                          image: AssetImage(imagens.split(";")[Index]),
+                          image: AssetImage(""),
                           fit: BoxFit.cover,
                           width: 100.0,
                           height: 100.0,
@@ -326,7 +326,7 @@ class _FieldsState extends State<Fields> {
                         ),
                       ),
                       title: Text(listaJogadores.split("/")[Index]),
-                      subtitle: Text(nicknames.split(";")[Index]),
+                      subtitle: Text("test"),
                     );
                   }),
                 ),
@@ -346,7 +346,7 @@ class _FieldsState extends State<Fields> {
                 imagens = imagens +";" + onValue.data.values.toString().split(",")[1];
                 nicknames = nicknames + ";" + onValue.data.values.toString().split(",")[0];
               });
-              
+
             }
 
 
