@@ -5,6 +5,7 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
@@ -393,6 +394,19 @@ class _FieldsState extends State<Fields> {
         hora1+"-"+hora2: jogadores,
       });
       reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
+      /*if(jogadores == 10){
+        final Email email = Email(
+          body: 'Email body',
+          subject: 'Email subject',
+          recipients: ['joaoFonseca_1993@hotmail.com'],
+          cc: ['joaoFonseca_1993@hotmail.com'],
+          bcc: ['joaoFonseca_1993@hotmail.com'],
+
+          isHTML: false,
+        );
+
+        await FlutterEmailSender.send(email);
+      }*/
     }
   }
 

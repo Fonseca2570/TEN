@@ -43,7 +43,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
             ),
           ),
         ),
-        title: Text(document['nome'].toString(),
+        title: Text(document['nome'].toString() +" "+ document["preco"].toString() + "€" ,
             style: style.copyWith(
                 fontWeight: FontWeight.bold)),
         subtitle: Text(document['tipologia'].toString()+"x"+document['tipologia'].toString(),
