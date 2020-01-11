@@ -54,7 +54,7 @@ class _FieldsState extends State<Fields> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia'], imagens: widget.imagens, nickNames: widget.nickNames,))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia']))));
         },
       );
     }).toList();
@@ -214,52 +214,16 @@ class _FieldsState extends State<Fields> {
     );
   }
 
-  Future <String> receberNickNames(String listaJogadores, String hora1, String hora2) {
-    String dia = widget.data.toString().substring(8, 10);
-    String mes = widget.data.toString().substring(5, 7);
-    String ano = widget.data.toString().substring(0, 4);
-    Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((valor) async{
-      if(valor.exists) {
-        valor.data.forEach((key, value) {
-          if (key == hora1 + "-" + hora2 + "-jogadores") {
-            listaJogadores = value;
-            widget.nickNames = null;
-            for(int i = 0; i< listaJogadores.split("/").length; i++){
-              Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue) async {
-                //Listajogadores é a variavel que tem os dados da firebase uid;nº reservas
-                // se fizer o comando abaixo ele impime os dados certos mas quando tento passar para o ListView builder ele parte
-                // List View ta na linha 308 se correres como ta agora consegues ver que funciona
-                //print(onValue.data.values.toString().split(",")[1]);
-                //print(onValue.data.values.toString().split(",")[0]);
-                print(listaJogadores.split("/")[i].split(";")[0]);
-                widget.nickNames = await onValue.data.values.toString().split(",")[0] + "/";
-
-                widget.imagens = await onValue.data.values.toString().split(",")[0] + "/";
-
-              });
-
-            }
-
-          }
-        });
-
-      }
-      else{
-        receberNickNames(listaJogadores, hora1, hora2);
-      }
-      return widget.nickNames;
-    });
-  }
 
 
   void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, String  user) {
     int drop = dropdownValue;
-    String listaJogadores;
+    String listaJogadores = "";
     String dia = widget.data.toString().substring(8, 10);
     String mes = widget.data.toString().substring(5, 7);
     String ano = widget.data.toString().substring(0, 4);
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-    void modal(int drop, int tipologia, String listaJogadores, String imagens, String nickNames){
+    void modal(int drop, int tipologia, String listaJogadores){
       List<int> pessoas = List();
       for (int i = jog; i <= (tipologia * 2); i++){
         pessoas.add(i);
@@ -285,7 +249,7 @@ class _FieldsState extends State<Fields> {
                     setState(() {
                       drop = newValue;
                       Navigator.pop(context);
-                      modal(drop, tipologia, listaJogadores,imagens,nickNames);
+                      modal(drop, tipologia, listaJogadores);
                     });
                   },
                 ),
@@ -310,9 +274,8 @@ class _FieldsState extends State<Fields> {
                   ),
                 ),
                 FutureBuilder(
-                    future: receberNickNames(listaJogadores, hora1, hora2),
                     builder: (context, snapshot) {
-                    while (widget.nickNames == null){
+                    while (listaJogadores == ""){
                       return CircularProgressIndicator();
                     }
                       return Expanded(
@@ -363,8 +326,7 @@ class _FieldsState extends State<Fields> {
         valor.data.forEach((key, value) {
           if (key == hora1 + "-" + hora2 + "-jogadores") {
             listaJogadores = value;
-
-            modal(drop, tipologia, listaJogadores,widget.imagens,widget.nickNames);
+            modal(drop, tipologia, listaJogadores);
           }
         });
       }
@@ -386,9 +348,12 @@ class _FieldsState extends State<Fields> {
       valor.data.forEach((key,value){
         if(key == hora1+"-"+hora2+"-jogadores"){
           listaJogadores = value;
-          listaJogadores = listaJogadores + user +";" + dropDownValue.toString() + "/";
-          Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
-            hora1+"-"+hora2+"-jogadores": listaJogadores,
+          Firestore.instance.collection("users").document(user).get().then((value) async{
+            String nick = await value.data.values.first;
+            listaJogadores = listaJogadores + nick +";" + dropDownValue.toString() + "/";
+            Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
+              hora1+"-"+hora2+"-jogadores": listaJogadores,
+            });
           });
         }
       });
