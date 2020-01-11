@@ -51,7 +51,7 @@ class _FieldsState extends State<Fields> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user, data: DateTime.now(), tipologia: document['tipologia']))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia']))));
         },
       );
     }).toList();
@@ -209,48 +209,53 @@ class _FieldsState extends State<Fields> {
     );
   }
 
-  Widget retornarlista(listaJogadores, index, bounds){
-    if(index < bounds-1) {
-      retornarlista(listaJogadores, index + 1, bounds);
-    }
-    if(listaJogadores.split("/")[index]!= "") {
-      return ListTile(
-        leading: new Material(
-          elevation: 4.0,
-          shape: CircleBorder(side: BorderSide(color: Colors.black)),
-          //shape: ContinuousRectangleBorder(side: BorderSide()),
-          clipBehavior: Clip.hardEdge,
-          color: Colors.transparent,
+  Widget retornarlista(listaJogadores, index){
+    /*try {
+      if (listaJogadores.split("/")[index] != "") {
+        return ListTile(
+          leading: new Material(
+            elevation: 4.0,
+            shape: CircleBorder(side: BorderSide(color: Colors.black)),
+            //shape: ContinuousRectangleBorder(side: BorderSide()),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.transparent,
 
-          child: Ink.image(
-            image: AssetImage(""),
-            fit: BoxFit.cover,
-            width: 100.0,
-            height: 100.0,
-            child: InkWell(
-              onTap: () {},
+            child: Ink.image(
+              image: AssetImage(""),
+              fit: BoxFit.cover,
+              width: 100.0,
+              height: 100.0,
+              child: InkWell(
+                onTap: () {},
+              ),
             ),
           ),
-        ),
-        title: Text(listaJogadores.split("/")[index]),
-        subtitle: Text("teste"),
-      );
+          title: Text(listaJogadores.split("/")[index]),
+          subtitle: Text("teste"),
+        );
+      }
+      else {
+        return Text("Ainda ninguem se inscreveu");
+      }
+    } on Exception catch(_){
+      print("out of bounds");
+    }*/
+    
+    
 
-    }
-    else{
-      return Text("Ainda ninguem se inscreveu");
-    }
   }
 
 
-  void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, FirebaseUser  user) {
+  void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, String  user) {
     int drop = dropdownValue;
     String listaJogadores;
+    String imagens = "";
+    String nicknames = "";
     String dia = widget.data.toString().substring(8, 10);
     String mes = widget.data.toString().substring(5, 7);
     String ano = widget.data.toString().substring(0, 4);
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-    void modal(int drop, int tipologia, String listaJogadores){
+    void modal(int drop, int tipologia, String listaJogadores, String imagens, String nicknames){
       List<int> pessoas = List();
       for (int i = jog; i <= (tipologia * 2); i++){
         pessoas.add(i);
@@ -275,7 +280,7 @@ class _FieldsState extends State<Fields> {
                   onChanged: (int newValue) {
                     drop = newValue;
                     Navigator.pop(context);
-                    modal(drop, tipologia, listaJogadores);
+                    modal(drop, tipologia, listaJogadores,imagens,nicknames);
                   },
                 ),
                 Material(
@@ -298,7 +303,33 @@ class _FieldsState extends State<Fields> {
                             color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
-                retornarlista(listaJogadores, 0,listaJogadores.split("/").length),
+                Expanded(
+                  child: new ListView.builder(
+                    itemCount: listaJogadores.split("/").length-1,
+                      itemBuilder: (BuildContext ctxt, int Index){
+                    return new ListTile(
+                      leading: new Material(
+                        elevation: 4.0,
+                        shape: CircleBorder(side: BorderSide(color: Colors.black)),
+                        //shape: ContinuousRectangleBorder(side: BorderSide()),
+                        clipBehavior: Clip.hardEdge,
+                        color: Colors.transparent,
+
+                        child: Ink.image(
+                          image: AssetImage(imagens.split(";")[Index]),
+                          fit: BoxFit.cover,
+                          width: 100.0,
+                          height: 100.0,
+                          child: InkWell(
+                            onTap: () {},
+                          ),
+                        ),
+                      ),
+                      title: Text(listaJogadores.split("/")[Index]),
+                      subtitle: Text(nicknames.split(";")[Index]),
+                    );
+                  }),
+                ),
               ],
             );
           }
@@ -310,12 +341,21 @@ class _FieldsState extends State<Fields> {
         valor.data.forEach((key, value) {
           if (key == hora1 + "-" + hora2 + "-jogadores") {
             listaJogadores = value;
-            modal(drop, tipologia, listaJogadores);
+            for(int i = 0; i< listaJogadores.split("/").length; i++){
+              Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue){
+                imagens = imagens +";" + onValue.data.values.toString().split(",")[1];
+                nicknames = nicknames + ";" + onValue.data.values.toString().split(",")[0];
+              });
+              
+            }
+
+
+            modal(drop, tipologia, listaJogadores,imagens,nicknames);
           }
         });
       }
       else{
-        modal(drop,tipologia,"");
+        modal(drop,tipologia,"","","");
       }
     });
 
@@ -323,7 +363,7 @@ class _FieldsState extends State<Fields> {
     //modal(drop, tipologia, listaJogadores);
   }
 //Tentar guardar os nicks de quem fez reserva
-  reservaJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, FirebaseUser  user) async{
+  reservaJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, String  user) async{
     String listaJogadores;
     String dia = data.toString().substring(8, 10);
     String mes = data.toString().substring(5, 7);
@@ -332,7 +372,7 @@ class _FieldsState extends State<Fields> {
       valor.data.forEach((key,value){
         if(key == hora1+"-"+hora2+"-jogadores"){
           listaJogadores = value;
-          listaJogadores = listaJogadores + "Jogador1;" + dropDownValue.toString() + "/";
+          listaJogadores = listaJogadores + user +";" + dropDownValue.toString() + "/";
           Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
             hora1+"-"+hora2+"-jogadores": listaJogadores,
           });
@@ -342,7 +382,7 @@ class _FieldsState extends State<Fields> {
 
   }
 
-  updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, FirebaseUser  user) async{
+  updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, String  user) async{
     bool hasData;
     if(jogadores != 0) {
       String dia = data.toString().substring(8, 10);
@@ -376,6 +416,8 @@ class _FieldsState extends State<Fields> {
       reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
     }
   }
+
+  void popularImagens() {}
 
 
 }
