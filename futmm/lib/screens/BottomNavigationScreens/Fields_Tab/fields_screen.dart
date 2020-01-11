@@ -92,7 +92,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
                     stream: Firestore.instance.collection('campos').snapshots(),
                     builder: (context,snapshot){
                       if(snapshot.data == null) return Center(
-                        child: CircularProgressIndicator(),
+                        child: Center(child: CircularProgressIndicator()),
                       );
                       return ListView(
                         children: makeListWidget(snapshot, widget.userId),

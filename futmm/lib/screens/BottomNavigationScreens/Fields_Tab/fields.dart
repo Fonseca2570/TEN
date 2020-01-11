@@ -138,6 +138,7 @@ class _FieldsState extends State<Fields> {
                               return CircularProgressIndicator();
                             }
                             else{
+                              print(widget.user);
                               return Container(
                                   constraints: BoxConstraints.expand(
                                       height: 200.0
