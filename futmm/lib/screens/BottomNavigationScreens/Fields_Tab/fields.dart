@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class Fields extends StatefulWidget {
   String value;
@@ -21,6 +22,40 @@ class Fields extends StatefulWidget {
 }
 
 class _FieldsState extends State<Fields> {
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
+  List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
+    return snapshot.data.documents.map<Widget>((document){
+      return ListTile(
+        leading: new Material(
+          elevation: 4.0,
+          //shape: CircleBorder(side: BorderSide(color: Colors.black)),
+          shape: ContinuousRectangleBorder(side: BorderSide()),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.transparent,
+
+          child: Ink.image(
+            image: AssetImage(document['img']),
+            fit: BoxFit.cover,
+            width: 100.0,
+            height: 100.0,
+            child: InkWell(
+              onTap: () {},
+            ),
+          ),
+        ),
+        title: Text(document['nome'].toString(),
+            style: style.copyWith(
+                fontWeight: FontWeight.bold)),
+        subtitle: Text(document['tipologia'].toString()+"x"+document['tipologia'].toString(),
+            style: style2.copyWith()),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: (){
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia']))));
+        },
+      );
+    }).toList();
+  }
 
   horarios(String campo, String horas, DateTime data){
     String dia = data.toString().substring(8, 10);
@@ -45,7 +80,7 @@ class _FieldsState extends State<Fields> {
             title: Text('Horario das '+horas1[0]+':00 até as '+horas1[1]+':00 '),
             subtitle: Text('Nº de elementos neste horario ' + jog),
             onTap: () {
-              onTap(int.tryParse(jog), widget.tipologia, horas1[0], horas1[1], int.parse(jog));
+              onTap(int.tryParse(jog), widget.tipologia, horas1[0], horas1[1], int.parse(jog), widget.user);
             },
           );
         }
@@ -175,16 +210,55 @@ class _FieldsState extends State<Fields> {
     );
   }
 
-  void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog) {
+  Widget retornarlista(listaJogadores, index){
+    /*try {
+      if (listaJogadores.split("/")[index] != "") {
+        return ListTile(
+          leading: new Material(
+            elevation: 4.0,
+            shape: CircleBorder(side: BorderSide(color: Colors.black)),
+            //shape: ContinuousRectangleBorder(side: BorderSide()),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.transparent,
+
+            child: Ink.image(
+              image: AssetImage(""),
+              fit: BoxFit.cover,
+              width: 100.0,
+              height: 100.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
+          ),
+          title: Text(listaJogadores.split("/")[index]),
+          subtitle: Text("teste"),
+        );
+      }
+      else {
+        return Text("Ainda ninguem se inscreveu");
+      }
+    } on Exception catch(_){
+      print("out of bounds");
+    }*/
+    
+    
+
+  }
+
+
+  void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, String  user) {
     int drop = dropdownValue;
+    String listaJogadores;
+    String imagens = "";
+    String nicknames = "";
+    String dia = widget.data.toString().substring(8, 10);
+    String mes = widget.data.toString().substring(5, 7);
+    String ano = widget.data.toString().substring(0, 4);
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-    //tipologia = 10;
-    void modal(int drop, int tipologia){
+    void modal(int drop, int tipologia, String listaJogadores, String imagens, String nicknames){
       List<int> pessoas = List();
       for (int i = jog; i <= (tipologia * 2); i++){
-        /*if ((tipologia * 2) - jog != 0){
-          pessoas.add(i);
-        }*/
         pessoas.add(i);
       }
       showModalBottomSheet(
@@ -207,7 +281,7 @@ class _FieldsState extends State<Fields> {
                   onChanged: (int newValue) {
                     drop = newValue;
                     Navigator.pop(context);
-                    modal(drop, tipologia);
+                    modal(drop, tipologia, listaJogadores,imagens,nicknames);
                   },
                 ),
                 Material(
@@ -221,7 +295,7 @@ class _FieldsState extends State<Fields> {
                       if ((tipologia * 2) - jog == 0){
                         drop = 0;
                       }
-                      updateJogadores(drop, widget.value, widget.data, hora1, hora2, dropdownValue);
+                      updateJogadores(drop, widget.value, widget.data, hora1, hora2, dropdownValue, user);
                       Navigator.pop(context);
                     },
                     child: Text("Guardar",
@@ -230,61 +304,121 @@ class _FieldsState extends State<Fields> {
                             color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
+                Expanded(
+                  child: new ListView.builder(
+                    itemCount: listaJogadores.split("/").length-1,
+                      itemBuilder: (BuildContext ctxt, int Index){
+                    return new ListTile(
+                      leading: new Material(
+                        elevation: 4.0,
+                        shape: CircleBorder(side: BorderSide(color: Colors.black)),
+                        //shape: ContinuousRectangleBorder(side: BorderSide()),
+                        clipBehavior: Clip.hardEdge,
+                        color: Colors.transparent,
+
+                        child: Ink.image(
+                          image: AssetImage(imagens.split(";")[Index]),
+                          fit: BoxFit.cover,
+                          width: 100.0,
+                          height: 100.0,
+                          child: InkWell(
+                            onTap: () {},
+                          ),
+                        ),
+                      ),
+                      title: Text(listaJogadores.split("/")[Index]),
+                      subtitle: Text(nicknames.split(";")[Index]),
+                    );
+                  }),
+                ),
               ],
             );
           }
       );
     }
-    modal(drop, tipologia);
+    //Ver se funciona
+    Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((valor){
+      if(valor.exists) {
+        valor.data.forEach((key, value) {
+          if (key == hora1 + "-" + hora2 + "-jogadores") {
+            listaJogadores = value;
+            for(int i = 0; i< listaJogadores.split("/").length; i++){
+              Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue){
+                imagens = imagens +";" + onValue.data.values.toString().split(",")[1];
+                nicknames = nicknames + ";" + onValue.data.values.toString().split(",")[0];
+              });
+              
+            }
+
+
+            modal(drop, tipologia, listaJogadores,imagens,nicknames);
+          }
+        });
+      }
+      else{
+        modal(drop,tipologia,"","","");
+      }
+    });
+
+    //tipologia = 10;
+    //modal(drop, tipologia, listaJogadores);
+  }
+//Tentar guardar os nicks de quem fez reserva
+  reservaJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, String  user) async{
+    String listaJogadores;
+    String dia = data.toString().substring(8, 10);
+    String mes = data.toString().substring(5, 7);
+    String ano = data.toString().substring(0, 4);
+    Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((valor){
+      valor.data.forEach((key,value){
+        if(key == hora1+"-"+hora2+"-jogadores"){
+          listaJogadores = value;
+          listaJogadores = listaJogadores + user +";" + dropDownValue.toString() + "/";
+          Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
+            hora1+"-"+hora2+"-jogadores": listaJogadores,
+          });
+        }
+      });
+    });
+
   }
 
-  updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue) async{
+  updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, String  user) async{
     bool hasData;
     if(jogadores != 0) {
       String dia = data.toString().substring(8, 10);
       String mes = data.toString().substring(5, 7);
       String ano = data.toString().substring(0, 4);
+
       Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((onValue){
         if (!onValue.exists) {
           Firestore.instance.collection('campos/' + widget.value + "/Data")
               .document(dia + "-" + mes + "-" + ano)
               .setData({
             '15-16': 0,
+            '15-16-jogadores': "",
             '16-17': 0,
+            '16-17-jogadores': "",
             '17-18': 0,
+            '17-18-jogadores': "",
             '18-19': 0,
+            '18-19-jogadores': "",
             '19-20': 0,
+            '19-20-jogadores': "",
             'data': dia + "-" + mes + "-" + ano,
           });
-          updateJogadores(jogadores, campo, data, hora1, hora2, dropDownValue);
+          updateJogadores(jogadores, campo, data, hora1, hora2, dropDownValue, user);
         }
       });
-      //jogadores = jogadores + dropDownValue;
+      dropDownValue = jogadores  - dropDownValue;
       Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
         hora1+"-"+hora2: jogadores,
       });
+      reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
     }
   }
 
-/*void _showDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // retorna um objeto do tipo Dialog
-        return AlertDialog(
-          title: new Text("Erro"),
-          content: new Text("Número de jogadores máximos já resgitados!"),
-          actions: <Widget>[
-            // define os botões na base do dialogo
-            new FlatButton(
-              child: new Text("Fechar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }*/
+  void popularImagens() {}
+
+
 }
