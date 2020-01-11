@@ -326,8 +326,8 @@ class _FieldsState extends State<Fields> {
                           ),
                         ),
                       ),
-                      title: Text(listaJogadores.split("/")[Index]),
-                      subtitle: Text("test"),
+                      title: Text(listaJogadores.split("/")[Index].split(";")[0]),
+                      subtitle: Text("Numero de reservas: "+listaJogadores.split("/")[Index].split(";")[1]),
                     );
                   }),
                 ),
@@ -344,8 +344,11 @@ class _FieldsState extends State<Fields> {
             listaJogadores = value;
             for(int i = 0; i< listaJogadores.split("/").length; i++){
               Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue){
-                imagens = imagens +";" + onValue.data.values.toString().split(",")[1];
-                nicknames = nicknames + ";" + onValue.data.values.toString().split(",")[0];
+                //Listajogadores é a variavel que tem os dados da firebase uid;nº reservas
+                // se fizer o comando abaixo ele impime os dados certos mas quando tento passar para o ListView builder ele parte
+                // List View ta na linha 308 se correres como ta agora consegues ver que funciona
+                print(onValue.data.values.toString().split(",")[1]);
+                print(onValue.data.values.toString().split(",")[0]);
               });
 
             }
