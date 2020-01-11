@@ -91,6 +91,8 @@ class _FieldsState extends State<Fields> {
     );
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +143,6 @@ class _FieldsState extends State<Fields> {
                               return CircularProgressIndicator();
                             }
                             else{
-                              print(widget.user);
                               return Container(
                                   constraints: BoxConstraints.expand(
                                       height: 200.0
@@ -222,6 +223,7 @@ class _FieldsState extends State<Fields> {
         valor.data.forEach((key, value) {
           if (key == hora1 + "-" + hora2 + "-jogadores") {
             listaJogadores = value;
+            widget.nickNames = null;
             for(int i = 0; i< listaJogadores.split("/").length; i++){
               Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue) async {
                 //Listajogadores é a variavel que tem os dados da firebase uid;nº reservas
@@ -229,14 +231,14 @@ class _FieldsState extends State<Fields> {
                 // List View ta na linha 308 se correres como ta agora consegues ver que funciona
                 //print(onValue.data.values.toString().split(",")[1]);
                 //print(onValue.data.values.toString().split(",")[0]);
+                print(listaJogadores.split("/")[i].split(";")[0]);
                 widget.nickNames = await onValue.data.values.toString().split(",")[0] + "/";
+
                 widget.imagens = await onValue.data.values.toString().split(",")[0] + "/";
 
               });
 
             }
-
-
 
           }
         });
@@ -280,9 +282,11 @@ class _FieldsState extends State<Fields> {
                     );
                   }).toList(),
                   onChanged: (int newValue) {
-                    drop = newValue;
-                    Navigator.pop(context);
-                    modal(drop, tipologia, listaJogadores,imagens,nickNames);
+                    setState(() {
+                      drop = newValue;
+                      Navigator.pop(context);
+                      modal(drop, tipologia, listaJogadores,imagens,nickNames);
+                    });
                   },
                 ),
                 Material(
@@ -336,8 +340,8 @@ class _FieldsState extends State<Fields> {
                                     ),
                                   ),
                                 ),
-                                title: //Text(listaJogadores.split("/")[Index].split(";")[0]),
-                                Text(widget.nickNames.replaceAll("(", "").replaceAll("/", "")),
+                                title: Text(listaJogadores.split("/")[Index].split(";")[0]),
+                                //Text(widget.nickNames.replaceAll("(", "").replaceAll("/", "")),
                                 subtitle: Text("Numero de reservas: " +
                                     listaJogadores.split("/")[Index].split(";")[1]),
                               );
@@ -359,7 +363,6 @@ class _FieldsState extends State<Fields> {
         valor.data.forEach((key, value) {
           if (key == hora1 + "-" + hora2 + "-jogadores") {
             listaJogadores = value;
-
 
             modal(drop, tipologia, listaJogadores,widget.imagens,widget.nickNames);
           }
