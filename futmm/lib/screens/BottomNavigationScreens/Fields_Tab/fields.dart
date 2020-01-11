@@ -15,9 +15,11 @@ class Fields extends StatefulWidget {
   final String user;
   DateTime data;
   int tipologia;
+  String imagens;
+  String nickNames;
 
 
-  Fields({Key key, this.value, this.user, this.data, this.tipologia}) : super(key: key);
+  Fields({Key key, this.value, this.user, this.data, this.tipologia, this.nickNames, this.imagens}) : super(key: key);
   @override
   _FieldsState createState() => _FieldsState();
 }
@@ -25,8 +27,6 @@ class Fields extends StatefulWidget {
 class _FieldsState extends State<Fields> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
-  String imagens = "bla bla";
-  String nickNames = "bla bla";
   List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
@@ -54,7 +54,7 @@ class _FieldsState extends State<Fields> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia']))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia'], imagens: widget.imagens, nickNames: widget.nickNames,))));
         },
       );
     }).toList();
@@ -213,7 +213,41 @@ class _FieldsState extends State<Fields> {
     );
   }
 
+  Future <String> receberNickNames(String listaJogadores, String hora1, String hora2) {
+    String dia = widget.data.toString().substring(8, 10);
+    String mes = widget.data.toString().substring(5, 7);
+    String ano = widget.data.toString().substring(0, 4);
+    Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((valor) async{
+      if(valor.exists) {
+        valor.data.forEach((key, value) {
+          if (key == hora1 + "-" + hora2 + "-jogadores") {
+            listaJogadores = value;
+            for(int i = 0; i< listaJogadores.split("/").length; i++){
+              Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue) async {
+                //Listajogadores é a variavel que tem os dados da firebase uid;nº reservas
+                // se fizer o comando abaixo ele impime os dados certos mas quando tento passar para o ListView builder ele parte
+                // List View ta na linha 308 se correres como ta agora consegues ver que funciona
+                //print(onValue.data.values.toString().split(",")[1]);
+                //print(onValue.data.values.toString().split(",")[0]);
+                widget.nickNames = await onValue.data.values.toString().split(",")[0] + "/";
+                widget.imagens = await onValue.data.values.toString().split(",")[0] + "/";
 
+              });
+
+            }
+
+
+
+          }
+        });
+
+      }
+      else{
+        receberNickNames(listaJogadores, hora1, hora2);
+      }
+      return widget.nickNames;
+    });
+  }
 
 
   void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, String  user) {
@@ -271,71 +305,74 @@ class _FieldsState extends State<Fields> {
                             color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
-                Expanded(
-                  child: new ListView.builder(
-                    itemCount: listaJogadores.split("/").length-1,
-                      itemBuilder: (BuildContext ctxt, int Index){
-                    return new ListTile(
-                      leading: new Material(
-                        elevation: 4.0,
-                        shape: CircleBorder(side: BorderSide(color: Colors.black)),
-                        //shape: ContinuousRectangleBorder(side: BorderSide()),
-                        clipBehavior: Clip.hardEdge,
-                        color: Colors.transparent,
+                FutureBuilder(
+                    future: receberNickNames(listaJogadores, hora1, hora2),
+                    builder: (context, snapshot) {
+                    while (widget.nickNames == null){
+                      return CircularProgressIndicator();
+                    }
+                      return Expanded(
+                        child: ListView.builder(
+                            itemCount: listaJogadores
+                                .split("/")
+                                .length - 1,
+                            itemBuilder: (BuildContext ctxt, int Index) {
+                              return new ListTile(
+                                leading: new Material(
+                                  elevation: 4.0,
+                                  shape: CircleBorder(
+                                      side: BorderSide(color: Colors.black)),
+                                  //shape: ContinuousRectangleBorder(side: BorderSide()),
+                                  clipBehavior: Clip.hardEdge,
+                                  color: Colors.transparent,
 
-                        child: Ink.image(
-                          image: AssetImage(""),
-                          fit: BoxFit.cover,
-                          width: 100.0,
-                          height: 100.0,
-                          child: InkWell(
-                            onTap: () {},
-                          ),
-                        ),
-                      ),
-                      title: //Text(listaJogadores.split("/")[Index].split(";")[0]),
-                      Text(nickNames),
-                      subtitle: Text("Numero de reservas: "+listaJogadores.split("/")[Index].split(";")[1]),
-                    );
-                  }),
-                ),
+                                  child: Ink.image(
+                                    image: AssetImage(""),
+                                    fit: BoxFit.cover,
+                                    width: 100.0,
+                                    height: 100.0,
+                                    child: InkWell(
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                ),
+                                title: //Text(listaJogadores.split("/")[Index].split(";")[0]),
+                                Text(widget.nickNames.replaceAll("(", "").replaceAll("/", "")),
+                                subtitle: Text("Numero de reservas: " +
+                                    listaJogadores.split("/")[Index].split(";")[1]),
+                              );
+                            }),
+                      );
+                    }
+                  ),
               ],
             );
           }
       );
     }
+
+
     //Ver se funciona
-    Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((valor){
+
+    Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).get().then((valor) async{
       if(valor.exists) {
         valor.data.forEach((key, value) {
           if (key == hora1 + "-" + hora2 + "-jogadores") {
             listaJogadores = value;
-            for(int i = 0; i< listaJogadores.split("/").length; i++){
-              Firestore.instance.collection("users").document(listaJogadores.split("/")[i].split(";")[0]).get().then((onValue){
-                //Listajogadores é a variavel que tem os dados da firebase uid;nº reservas
-                // se fizer o comando abaixo ele impime os dados certos mas quando tento passar para o ListView builder ele parte
-                // List View ta na linha 308 se correres como ta agora consegues ver que funciona
-                //print(onValue.data.values.toString().split(",")[1]);
-                //print(onValue.data.values.toString().split(",")[0]);
-                nickNames = onValue.data.values.toString().split(",")[0] + "/";
-
-              });
-
-            }
 
 
-            modal(drop, tipologia, listaJogadores,imagens,nickNames);
+            modal(drop, tipologia, listaJogadores,widget.imagens,widget.nickNames);
           }
         });
       }
       else{
-        modal(drop,tipologia,"","","");
+        onTap(dropdownValue, tipologia, hora1,hora2,jog, user);
       }
     });
 
-    //tipologia = 10;
-    //modal(drop, tipologia, listaJogadores);
+
   }
+
 //Tentar guardar os nicks de quem fez reserva
   reservaJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, String  user) async{
     String listaJogadores;
@@ -391,7 +428,8 @@ class _FieldsState extends State<Fields> {
     }
   }
 
-  void popularImagens() {}
+
+
 
 
 }
