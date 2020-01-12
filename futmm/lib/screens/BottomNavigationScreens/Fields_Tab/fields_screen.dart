@@ -22,8 +22,6 @@ class _FieldsScreenState extends State<FieldsScreen> {
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
-  String imagens;
-  String nickNames;
   List<Widget> makeListWidget(AsyncSnapshot snapshot, String userId){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
@@ -51,7 +49,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: userId, data: DateTime.now(), tipologia: document['tipologia'], imagens: imagens, nickNames: nickNames))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: userId, data: DateTime.now(), tipologia: document['tipologia'], mail : document['email']))));
         },
       );
     }).toList();

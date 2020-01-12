@@ -9,6 +9,9 @@ import 'package:futmm/utilities/animations.dart';
 import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class Fields extends StatefulWidget {
@@ -16,11 +19,11 @@ class Fields extends StatefulWidget {
   final String user;
   DateTime data;
   int tipologia;
-  String imagens;
-  String nickNames;
+  String mail;
 
 
-  Fields({Key key, this.value, this.user, this.data, this.tipologia, this.nickNames, this.imagens}) : super(key: key);
+
+  Fields({Key key, this.value, this.user, this.data, this.tipologia, this.mail}) : super(key: key);
   @override
   _FieldsState createState() => _FieldsState();
 }
@@ -61,6 +64,9 @@ class _FieldsState extends State<Fields> {
     }).toList();
   }
 
+
+
+
   horarios(String campo, String horas, DateTime data){
     String dia = data.toString().substring(8, 10);
     String mes = data.toString().substring(5, 7);
@@ -90,6 +96,37 @@ class _FieldsState extends State<Fields> {
         }
       },
     );
+  }
+  sendEmail(String das, String ate) async {
+    String username = 'futmm1@hotmail.com';
+    String password = 'futmmreservas2020';
+
+    final smtpServer = hotmail(username, password);
+    // Use the SmtpServer class to configure an SMTP server:
+    // final smtpServer = SmtpServer('smtp.domain.com');
+    // See the named arguments of SmtpServer for further configuration
+    // options.
+
+    // Create our message.
+    final message = Message()
+      ..from = Address(username, 'Your name')
+      ..recipients.add(widget.mail)
+      //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+      //..bccRecipients.add(Address('bccAddress@example.com'))
+      ..subject = 'Reserva do Campo'
+      ..text = 'O campo foi reservado para as horas de '+ das + " ate as " + ate;
+      //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+
   }
 
   
@@ -420,12 +457,14 @@ class _FieldsState extends State<Fields> {
         Firestore.instance.collection('campos/' + widget.value + "/Data").document(dia + "-" + mes + "-" + ano).updateData({
           hora1+"-"+hora2: jogadores,
         });
+        if(jogadores == 2*widget.tipologia){
+          sendEmail(hora1,hora2);
+        }
         reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
       });
 
     }
   }
-
 
 
 
