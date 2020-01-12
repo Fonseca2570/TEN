@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData){
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor)),
                 );
               }
               User user = User.fromDoc(snapshot.data);

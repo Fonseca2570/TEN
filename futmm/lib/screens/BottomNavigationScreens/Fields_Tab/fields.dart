@@ -5,6 +5,7 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:futmm/utilities/animations.dart';
 import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
@@ -68,7 +69,7 @@ class _FieldsState extends State<Fields> {
       stream: Firestore.instance.collection('campos/' + campo + '/Data').where('data', isEqualTo: (dia + "-" + mes + "-" + ano)).snapshots(),
       builder: (context,snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor));
         }
         else {
           String jog = snapshot.data.documents.map((
@@ -140,7 +141,7 @@ class _FieldsState extends State<Fields> {
                           stream: Firestore.instance.collection('campos').where('nome',isEqualTo: widget.value).snapshots(),
                           builder: (context,snapshot) {
                             if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
+                              return CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor));
                             }
                             else{
                               return Container(
@@ -275,9 +276,38 @@ class _FieldsState extends State<Fields> {
                 ),
                 FutureBuilder(
                     builder: (context, snapshot) {
-                    while (listaJogadores == ""){
-                      return Text("Sem reservas");
-                    }
+                      while (listaJogadores == ""){
+                        return Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('Não há jogadores inscritos',
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    fontFamily: 'CM Sans Serif',
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Text('A aguardar reservas...',
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontFamily: 'CM Sans Serif',
+                                          fontWeight: FontWeight.w300
+                                      ),
+                                    ),
+                                  ),
+                                  CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                       return Expanded(
                         child: ListView.builder(
                             itemCount: listaJogadores
@@ -288,14 +318,13 @@ class _FieldsState extends State<Fields> {
                                 leading: new Material(
                                   elevation: 4.0,
                                   shape: CircleBorder(
-                                      side: BorderSide(color: Colors.black)),
+                                      side: BorderSide(color: Colors.grey)),
                                   //shape: ContinuousRectangleBorder(side: BorderSide()),
                                   clipBehavior: Clip.hardEdge,
                                   color: Colors.transparent,
 
                                   child: Ink.image(
-                                    image: AssetImage(""),
-                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/UserApp/user_placeholder.jpg"),
                                     width: 100.0,
                                     height: 100.0,
                                     child: InkWell(
@@ -311,7 +340,7 @@ class _FieldsState extends State<Fields> {
                             }),
                       );
                     }
-                  ),
+                ),
               ],
             );
           }

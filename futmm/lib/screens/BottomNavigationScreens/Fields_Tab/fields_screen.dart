@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:futmm/utilities/app_settings.dart';
 import 'package:futmm/utilities/size_config.dart';
+import 'package:futmm/utilities/styles.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'fields.dart';
 
@@ -94,7 +95,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
                     stream: Firestore.instance.collection('campos').snapshots(),
                     builder: (context,snapshot){
                       if(snapshot.data == null) return Center(
-                        child: Center(child: CircularProgressIndicator()),
+                        child: Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor))),
                       );
                       return ListView(
                         children: makeListWidget(snapshot, widget.userId),

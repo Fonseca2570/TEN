@@ -31,7 +31,9 @@ class ScaleRoute extends PageRouteBuilder {
   );
 }
 
-class FutCircularAProgress extends CircularProgressIndicator{
+class FutCircularProgress extends CircularProgressIndicator{
+  final Animation<Color> valueColor;
+  FutCircularProgress({this.valueColor});
 
   Widget build(BuildContext context) {
     return CircularProgressIndicator(

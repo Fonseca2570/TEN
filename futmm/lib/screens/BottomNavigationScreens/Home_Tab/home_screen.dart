@@ -14,31 +14,32 @@ Dialog showalert(String img, String title, String texto, String data) {
   Dialog errorDialog = Dialog(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     //this right here
-    child: Container(
-      height: 600.0,
-      width: 300.0,
-
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Image.asset(img),
-          Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Text(title, style: TextStyle(color: Colors.red),),
-          ),
-          Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Text(texto, style: TextStyle(color: Colors.red),),
-          ),
-          Padding(padding: EdgeInsets.only(top: 50.0)),
-          FlatButton(onPressed: () {
-            BuildContext context;
-            Navigator.of(context).pop();
-          },
-              child: Text(data,
-                style: TextStyle(color: Colors.purple, fontSize: 18.0),))
-        ],
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 70.0),
+      child: Container(
+        width: 300.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(img),
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),),
+            ),
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(texto, style: TextStyle(fontSize: 16, height: 1.5)),
+            ),
+            Padding(padding: EdgeInsets.only(top: 50.0)),
+            FlatButton(onPressed: () {
+              BuildContext context;
+              Navigator.of(context).pop();
+            },
+                child: Text(data,
+                  style: TextStyle(fontSize: 18.0),))
+          ],
+        ),
       ),
     ),
   );
