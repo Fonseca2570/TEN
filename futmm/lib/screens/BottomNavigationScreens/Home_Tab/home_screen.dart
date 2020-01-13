@@ -19,13 +19,13 @@ Dialog showalert(String img, String title, String texto, String data) {
     child: Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: DM.isDark ? Border.all(width: 0.40 * SizeConfig.widthMultiplier, color: ColorsApp.lightGreyColor2) : null, /* 1.5 */
+        border: DM.isDark ? Border.all(width: 0.405 * SizeConfig.widthMultiplier, color: ColorsApp.lightGreyColor2) : null, /* 1.5 */
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.97 * SizeConfig.heightMultiplier), /* 70 */
         child: Container(
-          width: 8.46 * SizeConfig.heightMultiplier, /* 300 */
+          width: 81.08 * SizeConfig.widthMultiplier, /* 300 */
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -38,15 +38,15 @@ Dialog showalert(String img, String title, String texto, String data) {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.05 * SizeConfig.widthMultiplier, vertical: 1.92 * SizeConfig.heightMultiplier), /* 15.0 | 15.0 */
-                child: Text(texto, style: TextStyle(fontSize: 2.05 * SizeConfig.heightMultiplier, height: 0.405 * SizeConfig.heightMultiplier)), /* 16 | 1.5 */
+                child: Text(texto, style: TextStyle(fontSize: 2.05 * SizeConfig.heightMultiplier, height: 0.192 * SizeConfig.heightMultiplier)), /* 16 | 1.5 */
               ),
-              Padding(padding: EdgeInsets.only(top: 6.41 * SizeConfig.heightMultiplier)), /*50 */
+              Padding(padding: EdgeInsets.only(top: 6.41 * SizeConfig.heightMultiplier)), /* 50 */
               FlatButton(onPressed: () {
                 BuildContext context;
                 Navigator.of(context).pop();
               },
                   child: Text(data,
-                    style: TextStyle(fontSize: 2.30 * SizeConfig.heightMultiplier),)) /* 18 */
+                    style: TextStyle(fontSize: 2.30 * SizeConfig.heightMultiplier),)), /* 18 */
             ],
           ),
         ),
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(2.70 * SizeConfig.widthMultiplier, 1.79 * SizeConfig.heightMultiplier, 2.70 * SizeConfig.widthMultiplier, 2.70 * SizeConfig.heightMultiplier), /* 10 | 14 | 10 | 10 */
+                                        padding: EdgeInsets.fromLTRB(2.70 * SizeConfig.widthMultiplier, 1.79 * SizeConfig.heightMultiplier, 2.70 * SizeConfig.widthMultiplier, 1.28 * SizeConfig.heightMultiplier), /* 10 | 14 | 10 | 10 */
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: <Widget>[
