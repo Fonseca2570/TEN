@@ -19,33 +19,34 @@ Dialog showalert(String img, String title, String texto, String data) {
     child: Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: DM.isDark ? Border.all(width: 1.5, color: ColorsApp.lightGreyColor2) : null,
+        border: DM.isDark ? Border.all(width: 0.40 * SizeConfig.widthMultiplier, color: ColorsApp.lightGreyColor2) : null, /* 1.5 */
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 70.0),
+        padding: EdgeInsets.symmetric(vertical: 8.97 * SizeConfig.heightMultiplier), /* 70 */
         child: Container(
-          width: 300.0,
+          width: 8.46 * SizeConfig.heightMultiplier, /* 300 */
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Image.asset(img),
               Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),),
+                padding: EdgeInsets.symmetric(horizontal: 4.05 * SizeConfig.widthMultiplier, vertical: 1.92 * SizeConfig.heightMultiplier), /* 15.0 | 15.0 */
+                child: Text(title, style: TextStyle(fontSize: 3.07 * SizeConfig.heightMultiplier, fontWeight: FontWeight.w400), /* 24 */
+                ),
               ),
               Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(texto, style: TextStyle(fontSize: 16, height: 1.5)),
+                padding: EdgeInsets.symmetric(horizontal: 4.05 * SizeConfig.widthMultiplier, vertical: 1.92 * SizeConfig.heightMultiplier), /* 15.0 | 15.0 */
+                child: Text(texto, style: TextStyle(fontSize: 2.05 * SizeConfig.heightMultiplier, height: 0.405 * SizeConfig.heightMultiplier)), /* 16 | 1.5 */
               ),
-              Padding(padding: EdgeInsets.only(top: 50.0)),
+              Padding(padding: EdgeInsets.only(top: 6.41 * SizeConfig.heightMultiplier)), /*50 */
               FlatButton(onPressed: () {
                 BuildContext context;
                 Navigator.of(context).pop();
               },
                   child: Text(data,
-                    style: TextStyle(fontSize: 18.0),))
+                    style: TextStyle(fontSize: 2.30 * SizeConfig.heightMultiplier),)) /* 18 */
             ],
           ),
         ),
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 0.641 * SizeConfig.heightMultiplier), /* 5 */
               Expanded(
                 child: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraint){
@@ -110,13 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     border: Border.all(color: DM.isDark ? ColorsApp.greyColor : ColorsApp.lightGreyColor2),
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),
-                                  margin: EdgeInsets.symmetric(vertical: 7),
+                                  margin: EdgeInsets.symmetric(vertical: 0.897 * SizeConfig.heightMultiplier), /* 7 */
                                   /*height: 300.0,*/
                                   width: MediaQuery.of(context).size.width,
                                   child: Column(
                                     children: <Widget>[
                                       Container(
-                                        height: 170.0,
+                                        height: 21.79 * SizeConfig.heightMultiplier, /* 170 */
                                         width: MediaQuery.of(context).size.width,
                                         /*decoration: BoxDecoration(
                                           color: Colors.blue,
@@ -137,13 +138,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8.0, top: 14.0),
+                                        padding: EdgeInsets.only(left: 2.16 * SizeConfig.widthMultiplier, top: 1.79 * SizeConfig.heightMultiplier), /* 8.0 | 14.0 */
                                         child: Row(
                                           children: <Widget>[
                                             Text(
                                               '${appnew.title}',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 2.05 * SizeConfig.heightMultiplier, /* 16 */
                                                 color: DM.isDark ? ColorsApp.whiteColor : ColorsApp.blackColor,
                                               ),
                                             ),
@@ -151,15 +152,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                                        padding: EdgeInsets.only(left: 2.16 * SizeConfig.widthMultiplier, top: 1.02 * SizeConfig.heightMultiplier), /* 8.0 | 8.0 */
                                         child: Row(
                                           children: <Widget>[
                                             Flexible(
                                               child: Text(
                                                 '${appnew.content}',
                                                 style: TextStyle(
-                                                  fontSize: 14,
-                                                  height: 1.5,
+                                                  fontSize: 1.79 * SizeConfig.heightMultiplier, /* 14 */
+                                                  height: 0.192 * SizeConfig.heightMultiplier, /* 1.5 */
                                                   color: DM.isDark ? ColorsApp.lightGreyColor2 : ColorsApp.greyColor,
                                                 ),
                                               ),
@@ -168,14 +169,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.fromLTRB(10,14,10,10),
+                                        padding: EdgeInsets.fromLTRB(2.70 * SizeConfig.widthMultiplier, 1.79 * SizeConfig.heightMultiplier, 2.70 * SizeConfig.widthMultiplier, 2.70 * SizeConfig.heightMultiplier), /* 10 | 14 | 10 | 10 */
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: <Widget>[
                                             Text(
                                               'Publicado a ${appnew.dataPub}',
                                               style: TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 1.53 * SizeConfig.heightMultiplier, /* 12 */
                                                 color: DM.isDark ? ColorsApp.lightGreyColor2 : ColorsApp.greyColor,
                                               ),
                                             ),
