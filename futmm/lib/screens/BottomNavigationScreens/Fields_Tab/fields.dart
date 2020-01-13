@@ -97,7 +97,7 @@ class _FieldsState extends State<Fields> {
       },
     );
   }
-  sendEmail(String das, String ate) async {
+  sendEmail(String das, String ate, DateTime data) async {
     String username = 'futmm1@hotmail.com';
     String password = 'futmmreservas2020';
 
@@ -114,7 +114,7 @@ class _FieldsState extends State<Fields> {
       //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
       //..bccRecipients.add(Address('bccAddress@example.com'))
       ..subject = 'Reserva do Campo'
-      ..text = 'O campo foi reservado para as horas de '+ das + " ate as " + ate;
+      ..text = 'O campo foi reservado para o dia '+ data.day.toString() + "-"+ data.month.toString() + "-" + data.year.toString() +' as horas de '+ das + " ate as " + ate;
       //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
 
     try {
@@ -456,7 +456,7 @@ class _FieldsState extends State<Fields> {
           hora1+"-"+hora2: jogadores,
         });
         if(jogadores == 2*widget.tipologia){
-          sendEmail(hora1,hora2);
+          sendEmail(hora1,hora2, data);
         }
         reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
       });
