@@ -80,7 +80,7 @@ class _AppStartState extends State<AppStart> {
       OnBoardChecked.wasSeen = (prefs.getBool('onboard') ?? false);
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     systemOrientationPortraitUp();

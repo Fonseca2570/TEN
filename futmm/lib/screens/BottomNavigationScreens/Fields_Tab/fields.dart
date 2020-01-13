@@ -400,8 +400,6 @@ class _FieldsState extends State<Fields> {
         modal(drop, tipologia, listaJogadores);
       }
     });
-
-
   }
 
 //Tentar guardar os nicks de quem fez reserva
