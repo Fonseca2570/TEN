@@ -29,44 +29,6 @@ class Fields extends StatefulWidget {
 }
 
 class _FieldsState extends State<Fields> {
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
-  List<Widget> makeListWidget(AsyncSnapshot snapshot, FirebaseUser user){
-    return snapshot.data.documents.map<Widget>((document){
-      return ListTile(
-        leading: new Material(
-          elevation: 4.0,
-          //shape: CircleBorder(side: BorderSide(color: Colors.black)),
-          shape: ContinuousRectangleBorder(side: BorderSide()),
-          clipBehavior: Clip.hardEdge,
-          color: Colors.transparent,
-
-          child: Ink.image(
-            image: AssetImage(document['img']),
-            fit: BoxFit.cover,
-            width: 100.0,
-            height: 100.0,
-            child: InkWell(
-              onTap: () {},
-            ),
-          ),
-        ),
-        title: Text(document['nome'].toString(),
-            style: style.copyWith(
-                fontWeight: FontWeight.bold)),
-        subtitle: Text(document['tipologia'].toString()+"x"+document['tipologia'].toString(),
-            style: style2.copyWith()),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: user.uid, data: DateTime.now(), tipologia: document['tipologia']))));
-        },
-      );
-    }).toList();
-  }
-
-
-
-
   horarios(String campo, String horas, DateTime data){
     String dia = data.toString().substring(8, 10);
     String mes = data.toString().substring(5, 7);
@@ -87,8 +49,8 @@ class _FieldsState extends State<Fields> {
           }
           List<String> horas1 = horas.split("-");
           return ListTile(
-            title: Text('Horario das '+horas1[0]+':00 até as '+horas1[1]+':00 '),
-            subtitle: Text('Nº de elementos neste horario ' + jog),
+            title: Text('Horário das ${horas1[0]}:00 até às ${horas1[1]}:00 '),
+            subtitle: Text('Nº de elementos neste horário: $jog'),
             onTap: () {
               onTap(int.tryParse(jog), widget.tipologia, horas1[0], horas1[1], int.parse(jog), widget.user);
             },
@@ -97,6 +59,7 @@ class _FieldsState extends State<Fields> {
       },
     );
   }
+
   sendEmail(String das, String ate, DateTime data) async {
     String username = 'futmm1@hotmail.com';
     String password = 'futmmreservas2020';
@@ -111,11 +74,11 @@ class _FieldsState extends State<Fields> {
     final message = Message()
       ..from = Address(username, 'Your name')
       ..recipients.add(widget.mail)
-      //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
-      //..bccRecipients.add(Address('bccAddress@example.com'))
+    //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+    //..bccRecipients.add(Address('bccAddress@example.com'))
       ..subject = 'Reserva do Campo'
-      ..text = 'O campo foi reservado para o dia '+ data.day.toString() + "-"+ data.month.toString() + "-" + data.year.toString() +' as horas de '+ das + " ate as " + ate;
-      //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+      ..text = 'O campo foi reservado para o dia '+ data.day.toString() + "-"+ data.month.toString() + "-" + data.year.toString() +', das ${das}h até às ${ate}h.';
+    //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
 
     try {
       final sendReport = await send(message, smtpServer);
@@ -126,10 +89,7 @@ class _FieldsState extends State<Fields> {
         print('Problem: ${p.code}: ${p.msg}');
       }
     }
-
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +213,6 @@ class _FieldsState extends State<Fields> {
   }
 
 
-
   void onTap(int dropdownValue, int tipologia, String hora1, String hora2, int jog, String  user) {
     int drop = dropdownValue;
     String listaJogadores = "";
@@ -271,7 +230,7 @@ class _FieldsState extends State<Fields> {
           builder: (context) {
             return Column(
               children: <Widget>[
-                Text("Estão inscritos " + dropdownValue.toString() + " jogadores",
+                Text("Estão inscritos ${dropdownValue.toString()} jogadores",
                     textAlign: TextAlign.center,
                     style: style.copyWith(
                         fontWeight: FontWeight.bold)),
@@ -291,24 +250,27 @@ class _FieldsState extends State<Fields> {
                     });
                   },
                 ),
-                Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: Color(0xff009933),
-                  child: MaterialButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    onPressed: (){
-                      if ((tipologia * 2) - jog == 0){
-                        drop = 0;
-                      }
-                      updateJogadores(drop, widget.value, widget.data, hora1, hora2, dropdownValue, user);
-                      Navigator.pop(context);
-                    },
-                    child: Text("Guardar",
-                        textAlign: TextAlign.center,
-                        style: style.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(40.0,40.0,40.0,0),
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: Color(0xff009933),
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: (){
+                        if ((tipologia * 2) - jog == 0){
+                          drop = 0;
+                        }
+                        updateJogadores(drop, widget.value, widget.data, hora1, hora2, dropdownValue, user);
+                        Navigator.pop(context);
+                      },
+                      child: Text("Guardar",
+                          textAlign: TextAlign.center,
+                          style: style.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.bold)),
+                    ),
                   ),
                 ),
                 FutureBuilder(
@@ -320,8 +282,8 @@ class _FieldsState extends State<Fields> {
                             children: <Widget>[
                               Text('Não há jogadores inscritos',
                                 style: TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: 'CM Sans Serif',
+                                  fontSize: 22,
+                                  fontFamily: 'CM Sans Serif',
                                 ),
                               ),
                               SizedBox(height: 20),
@@ -371,7 +333,7 @@ class _FieldsState extends State<Fields> {
                                 ),
                                 title: Text(listaJogadores.split("/")[Index].split(";")[0]),
                                 //Text(widget.nickNames.replaceAll("(", "").replaceAll("/", "")),
-                                subtitle: Text("Numero de reservas: " +
+                                subtitle: Text("Número de reservas: " +
                                     listaJogadores.split("/")[Index].split(";")[1]),
                               );
                             }),
@@ -383,7 +345,6 @@ class _FieldsState extends State<Fields> {
           }
       );
     }
-
 
     //Ver se funciona
 
@@ -422,7 +383,6 @@ class _FieldsState extends State<Fields> {
         }
       });
     });
-
   }
 
   updateJogadores(int jogadores, String campo, DateTime data, String hora1, String hora2, int dropDownValue, String  user) async{
@@ -463,8 +423,4 @@ class _FieldsState extends State<Fields> {
 
     }
   }
-
-
-
-
 }

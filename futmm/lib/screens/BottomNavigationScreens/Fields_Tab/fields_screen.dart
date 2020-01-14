@@ -20,8 +20,8 @@ class FieldsScreen extends StatefulWidget {
 
 class _FieldsScreenState extends State<FieldsScreen> {
 
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0);
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 2.56 * SizeConfig.heightMultiplier); /* 20.0 */
+  TextStyle style2 = TextStyle(fontFamily: 'Montserrat', fontSize: 2.05 * SizeConfig.heightMultiplier); /* 16.0 */
   List<Widget> makeListWidget(AsyncSnapshot snapshot, String userId){
     return snapshot.data.documents.map<Widget>((document){
       return ListTile(
@@ -35,8 +35,8 @@ class _FieldsScreenState extends State<FieldsScreen> {
           child: Ink.image(
             image: AssetImage(document['img']),
             fit: BoxFit.cover,
-            width: 100.0,
-            height: 100.0,
+            width: 27.02 * SizeConfig.widthMultiplier, /* 100 */
+            height: 12.8 * SizeConfig.heightMultiplier, /* 100 */
             child: InkWell(
               onTap: () {},
             ),
