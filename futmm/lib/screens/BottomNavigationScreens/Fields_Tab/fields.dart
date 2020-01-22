@@ -209,7 +209,7 @@ class _FieldsState extends State<Fields> {
                 weekFormat: false,
                 markedDatesMap: _markedDateMap,
                 height: 420.0,
-                selectedDateTime: widget.data,
+                selectedDateTime: escolhaData(),
                 daysHaveCircularBorder: false,
                 minSelectedDate: dataMin,
               )
@@ -427,6 +427,16 @@ class _FieldsState extends State<Fields> {
         reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
       });
 
+    }
+  }
+
+  DateTime escolhaData(){
+    var dateNow = new DateTime.now();
+    if(dateNow.day == widget.data.day && dateNow.month == widget.data.month && dateNow.year == widget.data.year){
+      return dateNow.add(new Duration(days: 1));
+    }
+    else{
+      return widget.data;
     }
   }
 }
