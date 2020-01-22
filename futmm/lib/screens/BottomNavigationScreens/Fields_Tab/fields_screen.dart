@@ -90,7 +90,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height,
                   child: StreamBuilder(
-                    stream: Firestore.instance.collection('campos').snapshots(),
+                    stream: Firestore.instance.collection('campos').orderBy("distrito").orderBy("concelho").snapshots(),
                     builder: (context,snapshot){
                       if(snapshot.data == null) return Center(
                         child: Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor))),

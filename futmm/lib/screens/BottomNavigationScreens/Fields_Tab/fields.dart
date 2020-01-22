@@ -169,6 +169,8 @@ class _FieldsState extends State<Fields> {
   }
 
   void onPressedButton() {
+    var bloquearData = new DateTime.now();
+    var dataMin = new DateTime.now();
     EventList<Event> _markedDateMap;
     showModalBottomSheet(
         context: context,
@@ -176,6 +178,9 @@ class _FieldsState extends State<Fields> {
           return Container(
               child: CalendarCarousel<Event>(
                 onDayPressed: (DateTime date, List<Event> events) {
+                  // A função de filtrar datas tem que vir para aqui
+
+                  //
                   //Navigator.push(context, new MaterialPageRoute(builder: (context) => new field(value: widget.value, user: widget.user, data: date,)));
                   Navigator.pop(context);
                   setState(() {
@@ -206,6 +211,7 @@ class _FieldsState extends State<Fields> {
                 height: 420.0,
                 selectedDateTime: widget.data,
                 daysHaveCircularBorder: false,
+                minSelectedDate: dataMin,
               )
           );
         }
