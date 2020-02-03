@@ -35,7 +35,6 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
     List<Widget> makeListWidget(AsyncSnapshot snapshot){
       return snapshot.data.documents.map<Widget>((document){
         return ListTile(
-
           title: Text("Data: "+ document['Data'].toString() ,
               style: style.copyWith(
                   fontWeight: FontWeight.bold)),
@@ -49,6 +48,11 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
             color: Colors.transparent,
             child:
             Icon(Icons.done, size: 50, color: ColorsApp.normalGreenColor),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Icon(Icons.done, size: 13.5 * SizeConfig.widthMultiplier, color: ColorsApp.normalGreenColor), /* 50.0 */
+            ],
           ),
         );
       }).toList();
@@ -66,8 +70,18 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
                   child: Column(
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(right: 6.75 * SizeConfig.widthMultiplier), /* 25.0 */
+                            child: GestureDetector(
+                              child: Icon(
+                                Icons.arrow_back,
+                                size: 7.5 * SizeConfig.widthMultiplier, /* 30 */
+                              ),
+                              onTap: () => Navigator.pop(context),
+                            ),
+                          ),
                           Text(
                             widget.value,
                             style: TextStyle(
