@@ -14,7 +14,7 @@ import 'package:mailer/smtp_server.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-class Fields extends StatefulWidget {
+class MatchesInfoScreen extends StatefulWidget {
   String value;
   final String user;
   DateTime data;
@@ -22,12 +22,12 @@ class Fields extends StatefulWidget {
   String mail;
 
 
-  Fields({Key key, this.value, this.user, this.data, this.tipologia, this.mail}) : super(key: key);
+  MatchesInfoScreen({Key key, this.value, this.user, this.data, this.tipologia, this.mail}) : super(key: key);
   @override
-  _FieldsState createState() => _FieldsState();
+  _MatchesInfoScreenState createState() => _MatchesInfoScreenState();
 }
 
-class _FieldsState extends State<Fields> {
+class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
   horarios(String campo, String horas, DateTime data){
     String dia = data.toString().substring(8, 10);
     String mes = data.toString().substring(5, 7);
@@ -208,7 +208,7 @@ class _FieldsState extends State<Fields> {
                 weekFormat: false,
                 markedDatesMap: _markedDateMap,
                 height: 420.0,
-                selectedDateTime: widget.data,
+                selectedDateTime: escolhaData(),
                 daysHaveCircularBorder: false,
                 minSelectedDate: dataMin,
               )
@@ -422,7 +422,6 @@ class _FieldsState extends State<Fields> {
         });
         if(jogadores == 2*widget.tipologia){
           sendEmail(hora1,hora2, data);
-          createRegistry(data,hora1,hora2);
         }
         reservaJogadores(jogadores, campo, data, hora1,  hora2,  dropDownValue, user);
       });
@@ -434,22 +433,9 @@ class _FieldsState extends State<Fields> {
     var dateNow = new DateTime.now();
     if(dateNow.day == widget.data.day && dateNow.month == widget.data.month && dateNow.year == widget.data.year){
       return dateNow.add(new Duration(days: 1));
-      //return new
     }
     else{
       return widget.data;
     }
-  }
-
-  void createRegistry(DateTime data,String hora1, String hora2){
-    String dia = data.toString().substring(8, 10);
-    String mes = data.toString().substring(5, 7);
-    String ano = data.toString().substring(0, 4);
-    Firestore.instance.collection('campos/' + widget.value + "/Registo")
-        .document()
-        .setData({
-      'Data': dia+"-"+mes+"-"+ano,
-      'Horario': hora1 + "-" + hora2,
-    });
   }
 }

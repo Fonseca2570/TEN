@@ -6,6 +6,7 @@ import 'package:futmm/utilities/app_settings.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'matches_info.dart';
 
 
 class MatchesScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          //Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: userId, data: DateTime.now(), tipologia: document['tipologia'], mail : document['email']))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: MatchesInfoScreen(value: document['nome'], user: userId, data: DateTime.now(), tipologia: document['tipologia'], mail : document['email']))));
         },
       );
     }).toList();
@@ -70,7 +71,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Campos',
+                            'Reservas',
                             style: TextStyle(
                               fontFamily: 'CM Sans Serif',
                               fontSize: 3.5 * SizeConfig.heightMultiplier, /* old: 26.0 now: 24.0 */

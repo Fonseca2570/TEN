@@ -89,7 +89,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
                 Icons.date_range,
                 size: 6.48 * SizeConfig.widthMultiplier, /* 24 */
               ),
-              title: Text('Partidas'),
+              title: Text('Reservas'),
             ),
             BottomNavigationBarItem(
               icon: Icon(
