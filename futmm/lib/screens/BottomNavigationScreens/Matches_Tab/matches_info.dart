@@ -40,18 +40,10 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
                   fontWeight: FontWeight.bold)),
           subtitle: Text("Horario: " + document['Horario'].toString(),
               style: style2.copyWith()),
-          trailing: new Material(
-            elevation: 4.0,
-            //shape: CircleBorder(side: BorderSide(color: Colors.black)),
-            shape: ContinuousRectangleBorder(side: BorderSide()),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.transparent,
-            child:
-            Icon(Icons.done, size: 50, color: ColorsApp.normalGreenColor),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Icon(Icons.done, size: 13.5 * SizeConfig.widthMultiplier, color: ColorsApp.normalGreenColor), /* 50.0 */
+              Icon(Icons.done, size: 13.5 * SizeConfig.widthMultiplier, color: DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor), /* 50.0 */
             ],
           ),
         );
