@@ -41,7 +41,7 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
                   fontWeight: FontWeight.bold)),
           subtitle: Text("Horario: " + document['Horario'].toString(),
               style: style2.copyWith()),
-          leading: new Material(
+          trailing: new Material(
             elevation: 4.0,
             //shape: CircleBorder(side: BorderSide(color: Colors.black)),
             shape: ContinuousRectangleBorder(side: BorderSide()),
@@ -69,7 +69,7 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Campos',
+                            widget.value,
                             style: TextStyle(
                               fontFamily: 'CM Sans Serif',
                               fontSize: 3.5 * SizeConfig.heightMultiplier, /* old: 26.0 now: 24.0 */
@@ -84,7 +84,7 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height,
                   child: StreamBuilder(
-                    stream: Firestore.instance.collection('campos/'+widget.value + "/Registo/").snapshots(),
+                    stream: Firestore.instance.collection('campos/'+widget.value + "/Registo/").orderBy('Data', descending: true).snapshots(),
                     builder: (context,snapshot){
                       if(snapshot.data == null) return Center(
                         child: Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor))),
