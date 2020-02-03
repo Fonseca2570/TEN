@@ -49,7 +49,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
             style: style2.copyWith()),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: (){
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: userId, data: DateTime.now(), tipologia: document['tipologia'], mail : document['email']))));
+          Navigator.push(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: Fields(value: document['nome'], user: userId, data: DateTime.now().add(new Duration(days: 1)), tipologia: document['tipologia'], mail : document['email']))));
         },
       );
     }).toList();
