@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:futmm/screens/BottomNavigationScreens/screen_management.dart';
 import 'package:futmm/screens/welcome_screen.dart';
+import 'package:futmm/services/auth_service.dart';
 import 'package:futmm/utilities/app_settings.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
@@ -68,16 +69,22 @@ class _AppStartState extends State<AppStart> {
             ),
           ));
         }else if (OnBoardChecked.wasSeen == false){
+          AuthService.logout(context);
           Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => ThemeConsumer(child: OnboardingScreen())));
         }
       },
     );
   }
 
+  _resetCounter() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.clear();
+  }
+
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      OnBoardChecked.wasSeen = (prefs.getBool('onboard') ?? false);
+      OnBoardChecked.wasSeen = (prefs.getBool('isonboard') ?? false);
     });
   }
   

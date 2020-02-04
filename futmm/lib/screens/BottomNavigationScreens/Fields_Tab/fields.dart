@@ -1,18 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:futmm/utilities/animations.dart';
-import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:mailer/smtp_server/gmail.dart';
-import 'package:theme_provider/theme_provider.dart';
 
 class Fields extends StatefulWidget {
   String value;
@@ -287,19 +282,19 @@ class _FieldsState extends State<Fields> {
                             children: <Widget>[
                               Text('Não há jogadores inscritos',
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 2.82 * SizeConfig.heightMultiplier, /* 22 */
                                   fontFamily: 'CM Sans Serif',
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 2.56 * SizeConfig.heightMultiplier), /* 20.0 */
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 12.0),
+                                    padding: EdgeInsets.only(right: 3.24 * SizeConfig.widthMultiplier), /* 12.0 */
                                     child: Text('A aguardar reservas...',
                                       style: TextStyle(
-                                          fontSize: 22,
+                                          fontSize: 2.82 * SizeConfig.heightMultiplier,
                                           fontFamily: 'CM Sans Serif',
                                           fontWeight: FontWeight.w300
                                       ),

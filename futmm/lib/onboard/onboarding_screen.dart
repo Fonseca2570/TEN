@@ -35,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   _checkOnBoard() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setBool('onboard', true);
+      prefs.setBool('isonboard', true);
     });
   }
 

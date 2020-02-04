@@ -1,18 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:futmm/utilities/animations.dart';
-import 'package:futmm/utilities/constants.dart';
 import 'package:futmm/utilities/size_config.dart';
 import 'package:futmm/utilities/styles.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:mailer/smtp_server/gmail.dart';
-import 'package:theme_provider/theme_provider.dart';
 
 class MatchesInfoScreen extends StatefulWidget {
   String value;
@@ -34,17 +24,23 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
   Widget build(BuildContext context) {
     List<Widget> makeListWidget(AsyncSnapshot snapshot){
       return snapshot.data.documents.map<Widget>((document){
-        return ListTile(
-          title: Text("Data: "+ document['Data'].toString() ,
-              style: style.copyWith(
-                  fontWeight: FontWeight.bold)),
-          subtitle: Text("Horario: " + document['Horario'].toString(),
-              style: style2.copyWith()),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Icon(Icons.done, size: 13.5 * SizeConfig.widthMultiplier, color: DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor), /* 50.0 */
-            ],
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0.769 * SizeConfig.heightMultiplier), /* 6.0 */
+          child: ListTile(
+            title: Text("Data: "+ document['Data'].toString() ,
+                style: style.copyWith(
+                    fontWeight: FontWeight.bold)),
+            subtitle: Padding(
+              padding: EdgeInsets.only(top: 1.02 * SizeConfig.heightMultiplier), /* 8.0 */
+              child: Text("Horário: " + document['Horario'].toString(),
+                  style: style2.copyWith()),
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Icon(Icons.done, size: 13.5 * SizeConfig.widthMultiplier, color: DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor), /* 50.0 */
+              ],
+            ),
           ),
         );
       }).toList();
@@ -83,6 +79,24 @@ class _MatchesInfoScreenState extends State<MatchesInfoScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(height: 3.20 * SizeConfig.heightMultiplier), /* new: 25.0 old: 30.0 */
+                      StreamBuilder(
+                        stream: Firestore.instance.collection('campos').where('nome',isEqualTo: widget.value).snapshots(),
+                        builder: (context,snapshot) {
+                          if (!snapshot.hasData) {
+                            return CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(DM.isDark ? ColorsApp.brightGreenColor : ColorsApp.normalGreenColor));
+                          }
+                          else{
+                            return Container(
+                                constraints: BoxConstraints.expand(
+                                  height:  25.6 * SizeConfig.heightMultiplier, /* 200.0 */
+                                ),
+                                child: Image.asset(snapshot.data.documents.map((
+                                    doc) => doc['img']).toString().replaceAll("(", "").replaceAll(")", ""),width: 300,height: 300,)
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
